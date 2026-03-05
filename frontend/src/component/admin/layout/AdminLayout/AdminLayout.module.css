@@ -1,0 +1,19 @@
+.sidebar {
+    display: flex;
+    height: 100vh;
+}
+
+.content {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.outlet {
+    padding: 24px;
+    flex: 1;
+    overflow: auto;
+    background-image: url("https://img.freepik.com/free-vector/abstract-smooth-wavy-line-white-background-design_1017-45445.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+}

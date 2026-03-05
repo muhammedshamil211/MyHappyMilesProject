@@ -1,0 +1,26 @@
+.menuContainer {
+    position: absolute;
+    right: 0.75rem;
+    top: 3rem;
+    z-index: 45;
+}
+
+.card {
+    background-color: white;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    border-radius: 0.5rem;
+    padding: 1rem;
+    width: 65vw;
+    max-width: 250px;
+    position: relative;
+}
+
+.logo {
+    width: 120px;
+}
+
+.menuList {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}

@@ -1,0 +1,13 @@
+.button {
+    background-color: #ff5100;
+    font-size: clamp(0.7rem, 0.6143rem + 0.4286vw, 1rem);
+    cursor: pointer;
+    color: white;
+    padding: clamp(2px, calc(4.143px + 0.268vw), 8px) clamp(10px, calc(12.143px + 0.893vw), 25px);
+    border-radius: 2rem;
+}
+
+.button:hover {
+    color: #ff5100;
+    background-color: #e7b8a3;
+}

@@ -1,0 +1,11 @@
+.head{
+    font-size: 1.8rem;
+}
+
+.navigateText{
+    font-size: clamp(0.75rem, 0.7143rem + 0.1786vw, 0.875rem);
+}
+.navigateLink{
+    color: blue;
+    cursor: pointer;
+}

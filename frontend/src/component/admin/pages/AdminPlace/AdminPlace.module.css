@@ -1,0 +1,131 @@
+.main {
+    position: relative;
+}
+
+.grid {
+    padding: 15px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+
+}
+
+.animate {
+    animation: flow 0.6s ease;
+}
+
+@keyframes flow {
+    from {
+        transform: translateY(100px);
+        opacity: 0.5;
+    }
+
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.head {
+    font-size: 26px;
+}
+
+
+.headSection {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 5px;
+}
+
+.searchBar {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.searchInput {
+    background-color: white;
+    border: 1px solid black;
+    padding: 4px;
+    border-radius: 10px;
+
+}
+
+.searchButton {
+    background-color: rgb(0, 102, 153);
+    color: white;
+    padding: 3px;
+    border-radius: 6px;
+    font-size: 14px;
+}
+
+.clearButton {
+    background-color: rgb(247, 5, 5);
+    color: white;
+    padding: 3px;
+    border-radius: 6px;
+    font-size: 14px;
+}
+
+.searchInput:focus {
+    border: 1px solid black;
+}
+
+.addButton {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    border: 1px solid black;
+    border-radius: 2rem;
+    padding-left: 4px;
+    margin-right: 2rem;
+}
+
+.h4 {
+    font-size: 14px;
+}
+
+.plusButton {
+    color: white;
+    font-weight: bolder;
+    background-color: rgb(0, 170, 255);
+    font-size: 20px;
+    margin: 2px;
+    border-radius: 2rem;
+    padding: 0 10px;
+    position: relative;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.plusButton:hover {
+    background-color: rgba(0, 170, 255, 0.666);
+    transform: scale(1.05);
+}
+
+.category {
+    margin-top: 5px;
+    display: flex;
+    gap: 10px;
+}
+
+.active {
+    color: orange;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+}
+
+.paginaton {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.3rem;
+}
+
+.paginaton button {
+    background-color: rgb(225, 225, 225);
+    padding: 2px 5px;
+    border-radius: 4px;
+    cursor: pointer;
+}

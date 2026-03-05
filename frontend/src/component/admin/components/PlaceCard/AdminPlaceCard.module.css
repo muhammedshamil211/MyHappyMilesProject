@@ -1,0 +1,99 @@
+.card {
+    padding: 10px;
+    border-radius: 10px;
+    background-color: rgb(249, 249, 249);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    gap: 5px;
+    /* border: 1px solid rgb(215, 215, 215); */
+    box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.3);
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.card:hover {
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3);
+    transform: scale(1.015);
+}
+
+input:focus {
+    outline: none;
+    border: none;
+}   
+
+hr {
+
+    color: rgb(198, 198, 198);
+}
+
+.head {
+    color: rgb(225, 94, 0);
+    font-size: 24px;
+    text-align: center;
+    font-weight: 500;
+}
+
+.cardRow {
+    display: grid;
+}
+
+.p {
+    white-space: nowrap;
+    ;
+}
+
+.p2 {
+    color: rgb(0, 170, 255);
+    font-size: 11px;
+}
+
+.links {
+    overflow: scroll;
+    scrollbar-width: none;
+    white-space: nowrap;
+    font-size: 12px;
+    color: blue;
+}
+
+.actionDiv {
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.button {
+    font-size: 14px;
+    padding: 5px 15px;
+    color: white;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.imageGrid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 4px;
+}
+
+.imageGrid>*:not(:first-child) {
+    border-left: 2px solid rgb(205, 204, 204);
+    padding-left: 4px;
+}
+
+.preview {
+    background-color: rgb(0, 180, 69);
+    font-size: 12px;
+    padding: 5px 8px;
+    border-radius: 4px;
+    color: white;
+    cursor: pointer;
+}
+
+.edit {
+    background-color: rgb(0, 102, 153);
+}
+
+.delete {
+    background-color: rgb(255, 60, 0);
+}

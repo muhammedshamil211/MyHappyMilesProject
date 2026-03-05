@@ -1,0 +1,65 @@
+.card {
+    border-radius: 1rem;
+    overflow: hidden;
+    background-color: rgb(237, 237, 237);
+    padding-bottom: 5px;
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.card:hover {
+    box-shadow: 2px 4px 10px rgba(0, 0, 0, 0.3);
+    transform: scale(1.015);
+}
+
+.imageDiv {
+    height: 150px;
+    overflow: hidden;
+}
+
+.imageDiv img {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    object-position: center;
+}
+
+.detailContainer {}
+
+.detHead {
+    font-size: 20px;
+    margin-left: 4px;
+}
+
+.detailsDiv {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    margin-inline: 4px;
+}
+
+.detailsDiv h4 {
+    color: rgb(94, 94, 94);
+    font-size: 14px;
+}
+
+.buttonDiv {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 0.7rem;
+}
+
+.buttonDiv button {
+    padding: 2px 8px;
+    color: white;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.edit {
+    background-color: rgb(0, 166, 255);
+}
+
+.delete {
+    background-color: red;
+}

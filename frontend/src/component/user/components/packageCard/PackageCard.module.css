@@ -1,0 +1,88 @@
+.packageCard {
+    display: flex;
+    flex-direction: column;
+    border-radius: 1.5rem;
+    margin: auto;
+    width: 90%;
+    max-width: 90vw;
+    transition: transform 0.3s ease;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3);
+
+    transform: translateZ(0);
+    /* GPU layer */
+    will-change: transform;
+    /* Tell browser in advance */
+    backface-visibility: hidden;
+
+    contain: layout paint;
+
+}
+
+.packageCard:hover {
+    transform: scale(1.015);
+    z-index: 10;
+}
+
+.imageDiv {
+    height: clamp(100px, calc(71.429px + 8.929vw), 200px);
+    overflow: hidden;
+    border-top-left-radius: 1.5rem;
+    border-top-right-radius: 1.5rem;
+
+}
+
+.image {
+    object-fit: cover;
+    height: 100%;
+    width: 100%;
+    display: block;
+}
+
+.contentContainer {
+    display: flex;
+    justify-content: space-between;
+    background-color: rgb(240, 240, 240);
+    border-bottom-left-radius: 1.5rem;
+    border-bottom-right-radius: 1.5rem;
+    position: relative;
+}
+
+.contents {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    flex: 1;
+    padding: 0.5rem;
+}
+
+.title {
+    font-size: clamp(1rem, 0.8571rem + 0.7143vw, 1.5rem);
+    color: rgb(120, 120, 120);
+
+}
+
+.day {
+    width: fit-content;
+    font-size: clamp(0.75rem, 0.7143rem + 0.1786vw, 0.875rem);
+    color: #ff5100;
+    border: 1px solid gray;
+    padding: 2px 4px;
+    border-radius: 8px;
+}
+
+.rateText {
+    font-size: clamp(0.75rem, 0.7143rem + 0.1786vw, 0.875rem);
+    color: rgb(80, 80, 80);
+}
+
+.rate {
+    color: #ff5100;
+    font-size: clamp(0.875rem, 0.8464rem + 0.1429vw, 0.975rem);
+}
+
+.buttonDiv {
+    position: absolute;
+    width: fit-content;
+    bottom: 10%;
+    right: 5%;
+}

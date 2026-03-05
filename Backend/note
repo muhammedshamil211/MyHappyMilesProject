@@ -1,0 +1,12 @@
+
+// const { category } = req.query;
+        // let places;
+
+        // if (category) {
+        //     places = await PlaceModel.find({ category: category });
+        // } else {
+        //     places = await PlaceModel.find({ category: "international" });
+        // }
+
+
+MONGO_URI=mongodb+srv://shamil999211:shamil1122@cluster0.c5otmm4.mongodb.net/HappyMiles?retryWrites=true&w=majority

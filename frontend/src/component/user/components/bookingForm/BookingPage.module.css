@@ -1,0 +1,26 @@
+.heading{
+    font-size: 24px;
+    font-weight: 600;
+    margin-bottom: 4px;
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+    padding-inline: 14px;
+    padding-top: 24px;
+    background-color:#ff5100 ;
+    width: 100%;
+    text-align: center;
+    color: white;
+}
+
+.bookingInputs{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-block: 8px;
+}
+.bookingRow{
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    width: 100%;
+}

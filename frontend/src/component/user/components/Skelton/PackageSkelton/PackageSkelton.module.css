@@ -1,0 +1,75 @@
+.skeletonCard {
+    display: flex;
+    flex-direction: column;
+    border-radius: 1.5rem;
+    margin: auto;
+    width: 90%;
+    max-width: 90vw;
+    overflow: hidden;
+    background: transparent;
+}
+
+/* shimmer animation */
+.skeletonShimmer {
+    background: linear-gradient(
+        90deg,
+        #eeeeee 25%,
+        #e0e0e0 37%,
+        #eeeeee 63%
+    );
+    background-size: 400% 100%;
+    animation: shimmer 1.4s infinite;
+}
+
+@keyframes shimmer {
+    0% { background-position: 100% 50%; }
+    100% { background-position: 0 50%; }
+}
+
+/* IMAGE skeleton */
+.skelImage {
+    height: clamp(100px, calc(71.429px + 8.929vw), 200px);
+    border-top-left-radius: 1.5rem;
+    border-top-right-radius: 1.5rem;
+}
+
+/* CONTENT area */
+.skelContent {
+    background: rgb(240,240,240);
+    padding: 0.6rem;
+    border-bottom-left-radius: 1.5rem;
+    border-bottom-right-radius: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+/* title */
+.skelTitle {
+    height: 18px;
+    width: 70%;
+    border-radius: 6px;
+}
+
+/* duration */
+.skelDay {
+    height: 14px;
+    width: 80px;
+    border-radius: 6px;
+}
+
+/* price text */
+.skelPrice {
+    height: 14px;
+    width: 60%;
+    border-radius: 6px;
+}
+
+/* button */
+.skelButton {
+    margin-top: 10px;
+    height: 34px;
+    width: 110px;
+    border-radius: 8px;
+    align-self: flex-end;
+}

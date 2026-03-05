@@ -1,0 +1,22 @@
+.container {
+    width: 256px;
+    background-color: rgb(38, 37, 37);
+    color: white;
+    padding: 20px;
+}
+
+.h2 {
+    font-size: 20px;
+    font-weight: 900;
+    margin-bottom: 24px;
+}
+
+.list {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.list li:hover {
+    background-color: gray;
+}

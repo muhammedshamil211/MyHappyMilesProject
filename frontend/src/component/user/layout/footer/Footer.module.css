@@ -1,0 +1,48 @@
+.footer {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    background-color: #f3f4f6; 
+    border-radius: 1.5rem 1.5rem 0 0; 
+    padding: 2rem;
+    gap: 1.5rem;
+}
+
+
+@media (min-width: 768px) {
+    .footer {
+        grid-template-columns: repeat(4, 1fr);
+        padding: 3rem 4rem;
+    }
+}
+
+.logo {
+    grid-column: span 2;
+    width: 160px;
+    margin-bottom: 1rem;
+}
+
+@media (min-width: 768px) {
+    .logo {
+        grid-column: span 4; 
+    }
+}
+
+.column {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.column h2 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #1f2937; 
+    margin: 0;
+}
+
+.text {
+    font-size: 0.75rem; 
+    color: #6b7280; 
+    line-height: 1.4;
+    margin: 0;
+}

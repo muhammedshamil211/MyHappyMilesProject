@@ -1,0 +1,50 @@
+.card {
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.image {
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    cursor: pointer;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.image:hover {
+    transform: scale(1.05);
+    z-index: 10;
+}
+
+.name {
+    font-size: 0.875rem;
+    margin: 0;
+    text-align: center;
+}
+
+
+@media (min-width: 768px) {
+    .image {
+        width: 180px;
+        height: 180px;
+    }
+
+    .name {
+        font-size: 1.125rem;
+    }
+}
+
+@media (min-width: 1024px) {
+    .image {
+        width: 200px;
+        height: 200px;
+    }
+
+    .name {
+        font-size: 1.25rem;
+    }
+}

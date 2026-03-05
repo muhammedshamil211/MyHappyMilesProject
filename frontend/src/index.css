@@ -1,0 +1,62 @@
+@import "tailwindcss";
+
+* {
+    font-family: 'Poppins', sans-serif;
+}
+
+button{
+    transition: all 0.3s ease;
+}
+button:hover{
+    opacity: 0.9;
+}
+.scroll-div {
+    scrollbar-width: none;
+}
+
+.popup {
+    animation: popup 0.3s ease;
+}
+
+@keyframes popup {
+    from {
+        transform: scale(0.7);
+        opacity: 0;
+    }
+
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.an-slide {
+    animation: slide 0.3s ease-in-out ;
+}
+
+@keyframes slide {
+    from {
+        transform: translateX(200px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+.place-card img {
+    transition: all 0.3s ease;
+}
+
+.place-card img:hover {
+    outline: 4px solid orange;
+}
+.package-card{
+    transition: all 0.3s ease;
+}
+.package-card:hover {
+    box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.3);
+    scale: 1.015;
+}

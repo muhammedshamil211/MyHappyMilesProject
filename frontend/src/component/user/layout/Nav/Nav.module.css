@@ -1,0 +1,128 @@
+.navWrapper {
+    position: relative;
+}
+
+.navbar {
+    padding: 0.75rem 1.25rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: all 0.3s ease;
+}
+
+@media (max-width: 767px) {
+    .navbar {
+        padding: 0.6rem 1rem;
+    }
+}
+
+.logo {
+    width: 8rem;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.logo:hover {
+    transform: scale(1.02);
+}
+
+@media (min-width: 768px) {
+    .logo {
+        width: 10rem;
+    }
+}
+
+.navList {
+    display: none;
+    align-items: center;
+    gap: 2rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+@media (min-width: 768px) {
+    .navList {
+        display: flex;
+    }
+}
+
+.navItem {
+    display: flex;
+    align-items: center;
+    color: white;
+    gap: 0.5rem;
+    cursor: pointer;
+    font-weight: 500;
+    font-size: 0.95rem;
+    transition: color 0.3s ease;
+}
+
+.navItem:hover {
+    color: #ff5100;
+    /* Match your brand orange */
+}
+
+/* User Avatar Circle */
+.avatar {
+    color: white;
+    background-color: #ff5100;
+    width: 35px;
+    height: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 2px 8px rgba(255, 81, 0, 0.3);
+}
+
+.avatar:hover {
+    background-color: white;
+    color: #ff5100;
+    transform: translateY(-2px);
+}
+
+.mobileControls {
+    display: flex;
+    gap: 1.25rem;
+    align-items: center;
+}
+
+@media (min-width: 768px) {
+    .mobileControls {
+        display: none;
+    }
+}
+
+/* Animated Hamburger */
+.hamburger {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    cursor: pointer;
+    padding: 5px;
+}
+
+.bar {
+    height: 3px;
+    background-color: #ff5100;
+    border-radius: 10px;
+    transition: all 0.3s ease;
+}
+
+.barLong {
+    width: 22px;
+}
+
+.barShort {
+    width: 16px;
+    align-self: flex-end;
+    /* Makes it look more stylish */
+}
+
+.hamburger:hover .barShort {
+    width: 22px;
+}

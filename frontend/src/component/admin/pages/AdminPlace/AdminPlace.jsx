@@ -14,7 +14,10 @@ export default function AdminPlace() {
         category,
         setCategory,
         handlePlace,
-        loading
+        loading,
+        currentPage,
+        totalPages,
+        goToPage,
     } = useContext(AdminPlaceContext);
 
 
@@ -22,51 +25,14 @@ export default function AdminPlace() {
     const [animate, setAnimate] = useState(false);
     const [formOpen, setFormOpen] = useState(false);
     const [place, setPlace] = useState(null);
-    const [deletePlace, setDeletePlace] = useState(null)
+    const [deletePlace, setDeletePlace] = useState(null);
 
-    const [search, setSearch] = useState('');
-    const [searchQuery, setSearchQuery] = useState('');
-
-
-    const filterdPlace = adminPlaceList.filter(place => {
-        const matchesCategory = category === 'all' ? place : place.category === category;
-        const matchesSearch = place.name.toLowerCase().includes(searchQuery.toLowerCase());
-        return matchesCategory && matchesSearch;
-    });
-
-    const [currentPage, setCurrentPage] = useState(1);
-    const itemPerPage = 6;
-
-    const totalPages = Math.ceil(filterdPlace.length / itemPerPage);
-
-    const startIndex = (currentPage - 1) * itemPerPage;
-    const endIndex = startIndex + itemPerPage;
-
-    const currentPlaces = filterdPlace.slice(startIndex, endIndex);
-
-    console.log('totalPage', totalPages, '--currentPage', currentPage);
-
-    const handleSearch = () => {
-        setSearchQuery(search);
-        setCurrentPage(1);
-    }
-
-    useEffect(() => {
-        setCurrentPage(1);
-        setSearch('');
-        setSearchQuery('');
-    }, [category]);
-
+    // Animate on page/category change
     useEffect(() => {
         setAnimate(true);
-        const timer = setTimeout(() => {
-            setAnimate(false);
-        }, 500);
-
-        return () => clearTimeout(timer)
+        const timer = setTimeout(() => setAnimate(false), 500);
+        return () => clearTimeout(timer);
     }, [category, currentPage]);
-
-
 
     const handleDelete = async () => {
         try {
@@ -83,7 +49,7 @@ export default function AdminPlace() {
             );
             const data = await res.json();
             if (data.success) {
-                handlePlace();
+                handlePlace(currentPage);
                 setDeletePlace(null);
             }
 
@@ -96,37 +62,14 @@ export default function AdminPlace() {
         <div className={style.main}>
             <div className={style.headSection}>
                 <h1 className={style.head}>Places</h1>
-                <div className={style.searchBar}>
-                    <input
-                        type="text"
-                        placeholder='Enter place name'
-                        value={search}
-                        onChange={(e) => setSearch(e.target.value)}
-                        onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
-                        className={style.searchInput}
-                    />
-                    <button
-                        onClick={handleSearch}
-                        className={style.searchButton}
-                    >Search</button>
-                    <button
-                        onClick={() => {
-                            setSearch('');
-                            setSearchQuery('');
-                        }}
-                        className={style.clearButton}
-                    >clear</button>
-                </div>
                 <div>
                     <div className={style.addButton}>
                         <h4 className={style.h4}>Add Place</h4>
                         <span
                             className={style.plusButton}
                             onClick={() => {
-                                console.log("Clicked");
                                 setPlace(null);
                                 setFormOpen(true);
-                                console.log(formOpen)
                             }}
                         >+</span>
                     </div>
@@ -161,48 +104,51 @@ export default function AdminPlace() {
 
             <div className={`${style.grid} ${animate ? style.animate : ''}`} key={`${category}-${currentPage}`}>
 
-
-                {currentPlaces.length === 0 ? <p>Place not found</p> : currentPlaces.map(place => (
-                    <AdminPlaceCard
-                        key={place._id}
-                        place={place}
-                        onPreview={(url) => setPreviewUrl(url)}
-                        onEdit={() => {
-                            setPlace(place);
-                            setFormOpen(true);
-                        }}
-                        onDelete={() => setDeletePlace(place)}
-                    />
-                ))}
+                {adminPlaceList.length === 0 && !loading
+                    ? <p>Place not found</p>
+                    : adminPlaceList.map(place => (
+                        <AdminPlaceCard
+                            key={place._id}
+                            place={place}
+                            onPreview={(url) => setPreviewUrl(url)}
+                            onEdit={() => {
+                                setPlace(place);
+                                setFormOpen(true);
+                            }}
+                            onDelete={() => setDeletePlace(place)}
+                        />
+                    ))}
             </div>
 
-
-            <div className={style.paginaton}>
-                <button
-                    disabled={currentPage === 1}
-                    onClick={() => setCurrentPage(prev => prev - 1)}
-                >
-                    prev
-                </button>
-                {Array.from({ length: totalPages }, (_, index) => {
-                    const pageNumber = index + 1;
-                    return (<button
-                        key={index}
-                        onClick={() => setCurrentPage(pageNumber)}
-                        className={currentPage === pageNumber ? style.active : ''}
+            {/* Server-driven pagination */}
+            {totalPages > 1 && (
+                <div className={style.paginaton}>
+                    <button
+                        disabled={currentPage === 1}
+                        onClick={() => goToPage(currentPage - 1)}
                     >
-                        {index + 1}
+                        prev
                     </button>
-                    )
-                })}
-                <button
-                    disabled={currentPage === totalPages}
-                    onClick={() => setCurrentPage(prev => prev + 1)}
-
-                >
-                    Next
-                </button>
-            </div>
+                    {Array.from({ length: totalPages }, (_, index) => {
+                        const pageNumber = index + 1;
+                        return (
+                            <button
+                                key={index}
+                                onClick={() => goToPage(pageNumber)}
+                                className={currentPage === pageNumber ? style.active : ''}
+                            >
+                                {pageNumber}
+                            </button>
+                        );
+                    })}
+                    <button
+                        disabled={currentPage === totalPages}
+                        onClick={() => goToPage(currentPage + 1)}
+                    >
+                        Next
+                    </button>
+                </div>
+            )}
 
             {
                 previewUrl && (
@@ -221,7 +167,7 @@ export default function AdminPlace() {
                             setPlace(null);
                         }}
                         onSuccess={() => {
-                            handlePlace();
+                            handlePlace(currentPage);
                             setFormOpen(false);
                             setPlace(null);
                         }}

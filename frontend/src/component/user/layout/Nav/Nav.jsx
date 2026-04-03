@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import logo1 from "../../../../assets/logo1.png";
 import Button from '../../components/ui/button/Button';
-import { FaHome } from "react-icons/fa";
+import { FaHome, FaSuitcase } from "react-icons/fa";
 import Menu from '../../components/menu/Menu';
 import Loginpage from '../../../../pages/loginpage/Loginpage';
 import SignUpPage from '../../../../pages/signup/SignUpPage';
@@ -48,6 +48,9 @@ function Nav() {
                     <ul className={styles.navList}>
                         <li className={styles.navItem} onClick={() => navigate("/")}>
                             <FaHome /> Home
+                        </li>
+                        <li className={styles.navItem} onClick={() => navigate("/packages")}>
+                            <FaSuitcase /> Packages
                         </li>
 
                         {!user ? (

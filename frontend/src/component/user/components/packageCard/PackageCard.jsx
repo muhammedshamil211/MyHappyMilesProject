@@ -1,69 +1,59 @@
-import React, { useContext, useState } from 'react'
-import Button from '../ui/button/Button'
-import BookingPage from '../../../user/components/bookingForm/BookingPage'
-import { LoginContext, LoginProvider } from '../../../../context/LoginContext';
+import React, { useContext } from 'react'
+import { useNavigate } from 'react-router-dom';
+import { LoginContext } from '../../../../context/LoginContext'
 import style from './PackageCard.module.css'
 
 function PackageCard({ packagePlace, placeName }) {
 
-    const [showForm, setShowForm] = useState(false);
+    const navigate = useNavigate();
     const { setLogin } = useContext(LoginContext);
 
+    if (!packagePlace) return null;
 
-    const handleBooking = async () => {
+    // Resolve thumbnail: prefer images[], fall back to legacy image string
+    const thumbnail = packagePlace?.images?.[0] || packagePlace?.image || '';
 
-        const user = localStorage.getItem("user");
-
-        if (!user) {
-            setLogin(true)
-            alert("Please Login first");
+    const handleViewDetails = async () => {
+        if (!localStorage.getItem('user')) {
+            setLogin(true);
             return;
         }
 
-
+        // Increment view count silently
         try {
-            // We don't necessarily need to wait for this to finish to show the form,
-            // so we don't 'await' it if we want maximum speed, 
-            // but usually, it's safer to keep it async.
             await fetch(`http://localhost:5000/api/v1/packages/view/${packagePlace._id}`, {
-                method: "PUT",
+                method: 'PUT',
             });
         } catch (err) {
-            console.error("Failed to increment view count", err);
+            console.error('Failed to increment view count', err);
         }
 
-        setShowForm(true);
-
-    }
-
+        navigate(`/package/${packagePlace._id}`);
+    };
 
     return (
-        <>
-            <div className={style.packageCard}>
-                <div className={style.imageDiv}>
-                    <img src={packagePlace.image} className={style.image} />
-                </div>
-                <div className={style.contentContainer}>
-                    <div className={style.contents}>
-                        <p className={style.title}>{packagePlace.title}</p>
-                        <p className={style.day}>{packagePlace.duration}</p>
-                        <p className={style.rateText}>Starts from  <span className={style.rate}> ${packagePlace.price}</span></p>
-                        <div className={style.buttonDiv}>
-                            <Button text={"Book Now"} onClick={handleBooking} />
-                        </div>
+        <div className={style.packageCard}>
+            <div className={style.imageDiv}>
+                <img src={thumbnail} className={style.image} alt={packagePlace.title} />
+            </div>
+            <div className={style.contentContainer}>
+                <div className={style.contents}>
+                    <p className={style.title}>{packagePlace.title}</p>
+                    <p className={style.day}>{packagePlace.duration}</p>
+                    <p className={style.rateText}>
+                        Starts from <span className={style.rate}>
+                            ₹{(packagePlace.price || 0).toLocaleString()}
+                        </span>
+                    </p>
+                    <div className={style.buttonDiv}>
+                        <button className={style.bookBtn} onClick={handleViewDetails}>
+                            View Details →
+                        </button>
                     </div>
                 </div>
             </div>
-            {showForm && (
-                <BookingPage
-                    packages={packagePlace}
-                    placeName={placeName}
-                    closeForm={() => setShowForm(false)}
-                />
-
-            )}
-        </>
-    )
+        </div>
+    );
 }
 
 export default React.memo(PackageCard);

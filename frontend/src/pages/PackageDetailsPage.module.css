@@ -1,0 +1,204 @@
+/* ── Loading Wrapper ── */
+.loadingWrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    gap: 1rem;
+    font-family: 'Poppins', sans-serif;
+}
+
+.spinner {
+    width: 40px;
+    height: 40px;
+    border: 4px solid #e5e7eb;
+    border-top-color: #ff5100;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ── Hero / Banner ── */
+.hero {
+    position: relative;
+    height: 300px;
+    border-radius: 1.5rem;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    overflow: hidden;
+    margin: 0.5rem;
+}
+
+@media (min-width: 768px) {
+    .hero { height: 400px; margin: 1rem; }
+}
+
+.overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.45);
+}
+
+.heroContent {
+    position: relative;
+    z-index: 10;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 1rem;
+}
+
+.heroText {
+    margin-top: 5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.heroTitle {
+    font-size: clamp(2rem, 4vw, 3.5rem);
+    font-weight: 700;
+    color: white;
+    margin: 0;
+}
+
+.heroPackages {
+    font-weight: 500;
+}
+
+.heroSubtitle {
+    color: white;
+    font-size: 1.1rem;
+    margin-top: 0.5rem;
+}
+
+/* ── Main Container (Centered & Constrained) ── */
+.container {
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 0 1rem;
+}
+
+@media (max-width: 768px) {
+    .container { margin: 1rem auto; }
+}
+
+.mainGrid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+}
+
+@media (min-width: 1024px) {
+    .mainGrid {
+        grid-template-columns: 2fr 1.2fr;
+        gap: 2rem;
+    }
+}
+
+.detailsCol, .sidebarCol {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+@media (min-width: 1024px) {
+    .sidebarCol {
+        position: sticky;
+        top: 1rem;
+        height: fit-content;
+    }
+}
+
+/* ── Card Style (Exact match to project's light gray cards) ── */
+.card {
+    background-color: rgb(240, 240, 240);
+    border-radius: 1.5rem;
+    padding: 1.5rem;
+    box-shadow: 2px 2px 10px rgba(0,0,0,0.05);
+}
+
+@media (min-width: 768px) {
+    .card { padding: 2rem; }
+}
+
+.cardTitle {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #444;
+    margin-bottom: 1rem;
+}
+
+/* ── Elements ── */
+.bodyText {
+    color: #666;
+    line-height: 1.7;
+    font-size: 0.95rem;
+}
+
+.sidebarPriceRow {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.priceLabel { font-size: 0.8rem; color: #888; }
+.price { color: #ff5100; font-size: 1.8rem; font-weight: 700; margin: 0; }
+.perPerson { font-size: 0.85rem; color: #777; }
+
+.likeBtn {
+    background: white;
+    border: 1px solid #ddd;
+    padding: 0.5rem 1rem;
+    border-radius: 2rem;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.2s;
+}
+.likedActive { border-color: #ff5100; color: #ff5100; }
+
+.highlightList { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 0.5rem; }
+.highlightItem { display: flex; gap: 0.8rem; color: #555; }
+.dot { color: #ff5100; }
+
+/* Itinerary */
+.itineraryList { display: flex; flex-direction: column; gap: 0.5rem; }
+.dayCard { background: white; border-radius: 1rem; border: 1px solid #eee; overflow: hidden; }
+.dayHeader {
+    width: 100%; display: flex; align-items: center; gap: 1rem; padding: 1rem 1.25rem;
+    background: none; border: none; cursor: pointer; text-align: left;
+}
+.dayBadge { background: #ff5100; color: white; padding: 0.25rem 0.75rem; border-radius: 0.75rem; font-size: 0.8rem; font-weight: 700; }
+.dayTitle { flex: 1; font-weight: 600; color: #333; }
+.dayDesc { padding: 1rem 1.25rem; border-top: 1px solid #eee; color: #666; font-size: 0.9rem; line-height: 1.6; margin: 0; }
+
+.incExcGrid { display: grid; grid-template-columns: 1fr; gap: 1.5rem; }
+@media (min-width: 600px) { .incExcGrid { grid-template-columns: 1fr 1fr; } }
+.incLabel { color: #22c55e; font-size: 1rem; font-weight: 700; margin-bottom: 0.5rem; }
+.excLabel { color: #ef4444; font-size: 1rem; font-weight: 700; margin-bottom: 0.5rem; }
+.incList, .excList { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 0.4rem; font-size: 0.9rem; color: #555; }
+
+/* ── Booking Form ── */
+.bookingForm { display: flex; flex-direction: column; gap: 0.75rem; }
+.formRow { display: flex; flex-direction: column; gap: 0.3rem; }
+.fieldLabel { font-size: 0.85rem; font-weight: 600; color: #555; }
+.fieldInput { padding: 0.6rem 0.8rem; border: 1.5px solid #ddd; border-radius: 0.75rem; outline: none; transition: border-color 0.2s; background: white; }
+.fieldInput:focus { border-color: #ff5100; }
+
+.summaryBox {
+    background: white; border-radius: 1rem; padding: 1rem; margin-top: 0.5rem;
+    border: 1.5px solid #eee;
+}
+.summaryItem { display: flex; justify-content: space-between; align-items: center; font-weight: 600; color: #444; }
+.totalVal { color: #ff5100; font-size: 1.4rem; font-weight: 700; }
+
+.bookBtn {
+    background: #ff5100; color: white; border: none; padding: 0.8rem; border-radius: 2.5rem;
+    font-weight: 700; cursor: pointer; transition: all 0.2s; margin-top: 0.5rem;
+}
+.bookBtn:hover { opacity: 0.9; }
+.bookBtn:disabled { opacity: 0.6; cursor: not-allowed; }

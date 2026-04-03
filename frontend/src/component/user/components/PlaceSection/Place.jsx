@@ -5,8 +5,7 @@ import styles from './place.module.css';
 
 function Place() {
 
-    const { placeList, category, setCategory } = useContext(PlaceContext);
-    const placeByCategory = placeList.filter(place => place.category === category);
+    const { placeList, category, setCategory, loading } = useContext(PlaceContext);
 
     return (
         <div className={styles.container}>
@@ -29,15 +28,18 @@ function Place() {
                 </li>
             </ul>
 
+            {/* Horizontal scroll — shows ALL places for the selected category */}
             <div className={styles.scrollDiv}>
-                {placeByCategory.map(place => (
-                    <PlaceCard
-                        key={place._id} // Using _id as the unique key
-                        image={place.image}
-                        name={place.name}
-                        placeId={place._id}
-                    />
-                ))}
+                {loading
+                    ? <p>Loading...</p>
+                    : placeList.map(place => (
+                        <PlaceCard
+                            key={place._id}
+                            image={place.image}
+                            name={place.name}
+                            placeId={place._id}
+                        />
+                    ))}
             </div>
         </div>
     );

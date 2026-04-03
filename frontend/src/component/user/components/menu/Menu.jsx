@@ -3,6 +3,7 @@ import Button from '../ui/button/Button'
 import logo from '../../../../assets/logo.png'
 import styles from './Menu.module.css'
 import CloseButton from '../ui/closeButton/CloseButton';
+import { useNavigate } from 'react-router-dom';
 
 
 function Menu({ display,
@@ -14,6 +15,7 @@ function Menu({ display,
 }) {
 
     const menuRef = useRef();
+    const navigate = useNavigate();
 
     useEffect(() => {
         function handleCLickOutside(e) {
@@ -38,7 +40,8 @@ function Menu({ display,
 
                 <img src={logo} alt="Logo" className={styles.logo} />
                 <ul className={styles.menuList}>
-                    <li>Home</li>
+                    <li onClick={() => { navigate("/"); setMenu('none'); }}>Home</li>
+                    <li onClick={() => { navigate("/packages"); setMenu('none'); }}>Packages</li>
                     <li>About</li>
                     <li>{!user ? (
                         <Button text='Login' onClick={() => {

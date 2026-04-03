@@ -12,18 +12,30 @@ const bookingSchema = new mongoose.Schema({
         required: true
     },
     name: String,
-    phone:{ 
+    email: String,
+    phone: {
         type: String,
-        length:10,
-        required:true
+        required: true
     },
-    count:{
-        type:Number,
-        default:1
+    // people replaces the old `count` field
+    people: {
+        type: Number,
+        default: 1
     },
-    date: String
+    // Legacy alias
+    count: {
+        type: Number
+    },
+    date: String,
+    specialRequest: {
+        type: String,
+        default: ""
+    },
+    totalAmount: {
+        type: Number,
+        default: 0
+    }
 }, { timestamps: true });
 
 const BookingModel = mongoose.model('Booking', bookingSchema);
-
 export default BookingModel;

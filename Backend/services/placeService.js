@@ -1,17 +1,38 @@
 import * as placeRepository from '../repositories/placeRepository.js';
 
-export const getPlaces = async (category) => {
+const DEFAULT_LIMIT = 10;
+
+export const getPlaces = async (category, page = 1, limit = DEFAULT_LIMIT) => {
     try {
+        const pageNum = parseInt(page) || 1;
+        const limitNum = parseInt(limit) || DEFAULT_LIMIT;
+
         let places;
         if (category) {
-            places = await placeRepository.findPlacesByCategory(category);
+            places = await placeRepository.findPlacesByCategory(category, pageNum, limitNum);
         } else {
-            places = await placeRepository.findAllPlaces();
+            places = await placeRepository.findAllPlaces(pageNum, limitNum);
         }
+
+        const total = await placeRepository.countPlaces(category);
+        const totalPages = Math.ceil(total / limitNum);
+
+        const pagination = {
+            total,
+            page: pageNum,
+            limit: limitNum,
+            totalPages,
+            hasNextPage: pageNum < totalPages,
+            hasPrevPage: pageNum > 1,
+        };
 
         return {
             status: 200,
-            payload: { success: true, data: { places }, message: "Fetched successfully" }
+            payload: {
+                success: true,
+                data: { places, pagination },
+                message: "Fetched successfully"
+            }
         };
     } catch (error) {
         return { status: 500, payload: { success: false, data: {}, message: "Server error" } };
@@ -24,12 +45,7 @@ export const addPlace = async (name, category, image, coverImage) => {
             return { status: 400, payload: { success: false, data: {}, message: "All fields are required" } };
         }
 
-        const place = await placeRepository.createPlace({
-            name,
-            category,
-            image,
-            coverImage
-        });
+        const place = await placeRepository.createPlace({ name, category, image, coverImage });
 
         return {
             status: 201,

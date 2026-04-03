@@ -1,7 +1,8 @@
 import * as placeService from '../services/placeService.js';
 
 export const getPlace = async (req, res) => {
-    const { status, payload } = await placeService.getPlaces(req.query.category);
+    const { category, page = 1, limit = 10 } = req.query;
+    const { status, payload } = await placeService.getPlaces(category, page, limit);
     res.status(status).json(payload);
 };
 
@@ -17,8 +18,6 @@ export const editPlace = async (req, res) => {
 };
 
 export const deletPlace = async (req, res) => {
-    // Note: the original function name is intentionally kept as 'deletPlace'
-    // to prevent breaking existing route bindings
     const { status, payload } = await placeService.deletePlace(req.params.id);
     res.status(status).json(payload);
 };

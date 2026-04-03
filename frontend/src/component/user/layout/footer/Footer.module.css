@@ -1,48 +1,196 @@
-.footer {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    background-color: #f3f4f6; 
-    border-radius: 1.5rem 1.5rem 0 0; 
-    padding: 2rem;
-    gap: 1.5rem;
+.footerWrapper {
+    background-color: #1a1a1a;
+    color: #e5e7eb;
+    border-radius: 2.5rem 2.5rem 0 0;
+    padding-top: 3rem;
+    font-family: 'Poppins', sans-serif;
+    margin-top: 4rem; /* Gap between footer and content */
 }
 
+.footerMain {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    padding: 0 1.5rem 3rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
 
 @media (min-width: 768px) {
-    .footer {
-        grid-template-columns: repeat(4, 1fr);
-        padding: 3rem 4rem;
+    .footerMain {
+        grid-template-columns: repeat(2, 1fr);
+        padding: 0 3rem 4rem;
     }
+}
+
+@media (min-width: 1024px) {
+    .footerMain {
+        grid-template-columns: 1.5fr 1fr 1fr 1.2fr;
+        gap: 3rem;
+    }
+}
+
+/* ── Brand Column ── */
+.brandCol {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
 }
 
 .logo {
-    grid-column: span 2;
-    width: 160px;
-    margin-bottom: 1rem;
+    width: 180px;
+}
+
+.aboutText {
+    font-size: 0.9rem;
+    line-height: 1.7;
+    color: #9ca3af;
+    max-width: 320px;
+}
+
+.socialLinks {
+    display: flex;
+    gap: 1rem;
+}
+
+.socialIcon {
+    width: 36px;
+    height: 36px;
+    background-color: rgba(255, 255, 255, 0.05);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+    text-decoration: none;
+}
+
+.socialIcon:hover {
+    background-color: #ff5100;
+    color: white;
+    transform: translateY(-3px);
+}
+
+/* ── Link Columns ── */
+.linksCol {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+}
+
+.colTitle {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #ff5100;
+    margin: 0;
+    position: relative;
+    padding-bottom: 0.5rem;
+}
+
+.colTitle::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 30px;
+    height: 2px;
+    background-color: #ff5100;
+}
+
+.linkList {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.linkList a {
+    color: #9ca3af;
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: color 0.2s ease;
+}
+
+.linkList a:hover {
+    color: #ff5100;
+}
+
+/* ── Contact Column ── */
+.contactCol {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+}
+
+.contactItem {
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+}
+
+.contactIcon {
+    margin-top: 0.25rem;
+    color: #ff5100;
+    font-size: 1.1rem;
+}
+
+.contactLabel {
+    font-size: 0.8rem;
+    color: #6b7280;
+    margin: 0;
+    text-transform: uppercase;
+    letter-spacing: 0.05rem;
+}
+
+.contactValue {
+    font-size: 0.95rem;
+    color: #e5e7eb;
+    font-weight: 600;
+    margin: 0;
+}
+
+/* ── Footer Bottom Bar ── */
+.footerBottom {
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    background-color: #111;
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    text-align: center;
+    font-size: 0.85rem;
+    color: #6b7280;
 }
 
 @media (min-width: 768px) {
-    .logo {
-        grid-column: span 4; 
+    .footerBottom {
+        flex-direction: row;
+        justify-content: space-between;
+        padding: 1.5rem 3rem;
+        text-align: left;
     }
 }
 
-.column {
+.bottomLinks {
     display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
+    gap: 0.75rem;
+    align-items: center;
 }
 
-.column h2 {
-    font-size: 1.1rem;
-    font-weight: 600;
-    color: #1f2937; 
-    margin: 0;
+.bottomLinks a {
+    color: #6b7280;
+    text-decoration: none;
 }
 
-.text {
-    font-size: 0.75rem; 
-    color: #6b7280; 
-    line-height: 1.4;
-    margin: 0;
+.bottomLinks a:hover {
+    color: #ff5100;
+}
+
+.separator {
+    color: #374151;
 }

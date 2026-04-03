@@ -83,6 +83,24 @@
 .buttonDiv {
     position: absolute;
     width: fit-content;
-    bottom: 10%;
+    bottom: 15%;
     right: 5%;
+}
+
+.bookBtn {
+    background-color: #ff5100;
+    color: white;
+    border: none;
+    padding: clamp(4px, 0.5vw, 8px) clamp(12px, 1.5vw, 25px);
+    border-radius: 2rem;
+    font-size: clamp(0.75rem, 0.9vw, 0.95rem);
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.bookBtn:hover {
+    background-color: #e7b8a3;
+    color: #ff5100;
+    transform: translateY(-1px);
 }

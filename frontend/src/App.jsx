@@ -11,6 +11,7 @@ import AdminPlacePackages from './component/admin/pages/PlacePackages/AdminPlace
 import AdminPackageDetails from './component/admin/pages/PackageDetails/AdminPackageDetails';
 import PackageDetailsPage from './pages/PackageDetailsPage';
 import PackagesPage from './pages/PackagesPage';
+import ScrollToHash from './component/user/components/ScrollToHash';
 
 function App() {
 
@@ -18,6 +19,7 @@ function App() {
     <PlaceProvider>
       <AdminPlaceProvider>
         <BrowserRouter>
+          <ScrollToHash />
           <Routes>
             {/* User routes */}
             <Route path='/' element={<Homepage />} />

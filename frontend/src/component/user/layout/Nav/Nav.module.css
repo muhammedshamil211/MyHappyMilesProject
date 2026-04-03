@@ -14,6 +14,10 @@
     .navbar {
         padding: 0.6rem 1rem;
     }
+    .avatar {
+        width: 36px;
+        height: 36px;
+    }
 }
 
 .logo {
@@ -67,8 +71,8 @@
 .avatar {
     color: white;
     background-color: #ff5100;
-    width: 35px;
-    height: 35px;
+    width: 40px;
+    height: 40px;
     display: flex;
     align-items: center;
     justify-content: center;

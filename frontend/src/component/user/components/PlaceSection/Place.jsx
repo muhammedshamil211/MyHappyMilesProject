@@ -8,7 +8,7 @@ function Place() {
     const { placeList, category, setCategory, loading } = useContext(PlaceContext);
 
     return (
-        <div className={styles.container}>
+        <div className={styles.container} id="destinations">
             <p className={styles.heading}>
                 Browse <span className={styles.subHeading}>By Categories</span>
             </p>

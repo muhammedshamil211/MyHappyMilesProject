@@ -38,7 +38,13 @@
 }
 
 .logo {
-    width: 180px;
+    width: 140px;
+}
+
+@media (min-width: 768px) {
+    .logo {
+        width: 180px;
+    }
 }
 
 .aboutText {

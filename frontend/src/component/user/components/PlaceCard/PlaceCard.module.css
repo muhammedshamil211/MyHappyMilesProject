@@ -7,8 +7,8 @@
 }
 
 .image {
-    width: 90px;
-    height: 90px;
+    width: 130px;
+    height: 130px;
     border-radius: 50%;
     cursor: pointer;
     object-fit: cover;

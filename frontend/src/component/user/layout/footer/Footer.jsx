@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import logo1 from "../../../../assets/logo1.png";
 import styles from './footer.module.css';
 import { FaFacebookF, FaTwitter, FaInstagram, FaLinkedinIn, FaPhoneAlt, FaEnvelope, FaMapMarkerAlt } from 'react-icons/fa';
@@ -26,9 +27,9 @@ function Footer() {
                 <div className={styles.linksCol}>
                     <h3 className={styles.colTitle}>Discovery</h3>
                     <ul className={styles.linkList}>
-                        <li><a href="/">Home</a></li>
-                        <li><a href="/places">Destinations</a></li>
-                        <li><a href="/packages">Tour Packages</a></li>
+                        <li><Link to="/">Home</Link></li>
+                        <li><Link to="/#destinations">Destinations</Link></li>
+                        <li><Link to="/packages">Tour Packages</Link></li>
                         <li><a href="#gallery">Travel Gallery</a></li>
                         <li><a href="#offers">Special Offers</a></li>
                     </ul>

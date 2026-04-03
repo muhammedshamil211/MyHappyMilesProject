@@ -63,9 +63,13 @@ function Landing() {
                   </div>
                 ))}
               </div>
-              <div className='mt-40 '>
-                <p className='text-white md:text-2xl md:ml-[9vw] md:-mb-6 ml-[11vw] -mb-2.5'>Take only <span className='md:text-5xl text-2xl'>   Memories</span></p>
-                <p className='text-white'> <span className='md:text-5xl text-2xl'>Leave</span> only <span >footprints</span></p>
+              <div className='mt-20 md:mt-32 text-center text-white px-2'>
+                <h2 className='text-lg md:text-2xl font-light mb-1'>
+                  Take only <span className='text-3xl md:text-6xl font-bold block md:inline mt-1 md:mt-0'>Memories</span>
+                </h2>
+                <h2 className='text-lg md:text-2xl font-light'>
+                  <span className='text-3xl md:text-6xl font-bold block md:inline mb-1 md:mb-0'>Leave</span> only footprints
+                </h2>
               </div>
             </div>
           </div>

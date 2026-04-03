@@ -40,7 +40,7 @@ function Profile({ user, setUser, profileOpen, setProfileOpen }) {
         const token = localStorage.getItem("token");
 
         try {
-            const res = await fetch("http://localhost:5000/api/auth/edit", {
+            const res = await fetch("http://localhost:5000/api/v1/auth/edit", {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json",
@@ -51,9 +51,9 @@ function Profile({ user, setUser, profileOpen, setProfileOpen }) {
 
             const data = await res.json();
 
-            if (data.user) {
-                localStorage.setItem("user", JSON.stringify(data.user));
-                setUser(data.user);
+            if (data.data?.user) {
+                localStorage.setItem("user", JSON.stringify(data.data.user));
+                setUser(data.data.user);
 
                 setMessage("Name updated successfully");
                 setType("success");
@@ -89,7 +89,7 @@ function Profile({ user, setUser, profileOpen, setProfileOpen }) {
         const token = localStorage.getItem("token");
 
         try {
-            const res = await fetch("http://localhost:5000/api/auth/edit", {
+            const res = await fetch("http://localhost:5000/api/v1/auth/edit", {
                 method: "DELETE",
                 headers: {
                     "Content-Type": "application/json",
@@ -100,7 +100,7 @@ function Profile({ user, setUser, profileOpen, setProfileOpen }) {
 
             const data = await res.json();
 
-            if (data.delete) {
+            if (data.data?.delete) {
                 setMessage(data.message || "Account deleted");
                 setType("success");
                 setToast(true);

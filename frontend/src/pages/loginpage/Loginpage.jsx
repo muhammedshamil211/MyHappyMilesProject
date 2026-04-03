@@ -43,7 +43,7 @@ function Loginpage() {
         }
 
         try {
-            const res = await fetch("http://localhost:5000/api/auth/login", {
+            const res = await fetch("http://localhost:5000/api/v1/auth/login", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
@@ -57,19 +57,19 @@ function Loginpage() {
             const data = await res.json();
 
             if (data.success) {
-                localStorage.setItem('token', data.token);
+                localStorage.setItem('token', data.data.token);
 
-                localStorage.setItem("user", JSON.stringify(data.user));
-                setUser(data.user);
+                localStorage.setItem("user", JSON.stringify(data.data.user));
+                setUser(data.data.user);
                 setMessage(data.message || "Login successful");
                 setType('success');
                 setToast(true);
                 setLogin(false);
 
 
-                if (data.user.role === 'admin') {
+                if (data.data.user.role === 'admin') {
                     navigate('/admin');
-                } else if (data.user.role === 'user') {
+                } else if (data.data.user.role === 'user') {
                     navigate(location.state?.from?.pathname || '/');
                 }
 

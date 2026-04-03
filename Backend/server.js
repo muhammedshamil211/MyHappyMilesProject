@@ -17,13 +17,13 @@ connectDB();
 app.use(cors());
 app.use(express.json());
 
-app.use("/api/auth", authRouter);
+app.use("/api/v1/auth", authRouter);
 
-app.use("/api", placeRouter);
+app.use("/api/v1", placeRouter);
 
-app.use("/api", packageRouter);
+app.use("/api/v1", packageRouter);
 
-app.use("/api",bookingRouter);
+app.use("/api/v1", bookingRouter);
 
 
 

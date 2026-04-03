@@ -15,12 +15,12 @@ export const AdminPlaceProvider = ({ children }) => {
         try {
             setLoading(true);
 
-            const res = await fetch(`http://localhost:5000/api/places`);
+            const res = await fetch(`http://localhost:5000/api/v1/places`);
 
             const data = await res.json();
 
             if (data.success) {
-                setAdminPlaceList(data.places);
+                setAdminPlaceList(data.data.places);
             }
 
 

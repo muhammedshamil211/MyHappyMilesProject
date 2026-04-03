@@ -13,11 +13,11 @@ function Package({ place }) {
   const handlePackages = async () => {
     try {
       setLoading(true);
-      const res = await fetch(`http://localhost:5000/api/packages/${place._id}`);
+      const res = await fetch(`http://localhost:5000/api/v1/packages/${place._id}`);
 
       const data = await res.json();
       if (data.success) {
-        setPackages(data.packages);
+        setPackages(data.data.packages);
       }
     } catch (err) {
       alert(err);

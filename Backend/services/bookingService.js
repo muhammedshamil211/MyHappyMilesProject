@@ -9,6 +9,7 @@ export const addBooking = async (userId, userName, packageId, phone, date, count
                 status: 400,
                 payload: {
                     success: false,
+                    data: {},
                     message: "You already booked this package"
                 }
             };
@@ -27,8 +28,8 @@ export const addBooking = async (userId, userName, packageId, phone, date, count
             status: 201,
             payload: {
                 success: true,
-                message: "Booking successful",
-                booking
+                data: { booking },
+                message: "Booking successful"
             }
         };
 
@@ -38,6 +39,7 @@ export const addBooking = async (userId, userName, packageId, phone, date, count
             status: 500,
             payload: {
                 success: false,
+                data: {},
                 message: 'Booking failed'
             }
         };
@@ -46,20 +48,25 @@ export const addBooking = async (userId, userName, packageId, phone, date, count
 
 export const getUserBookings = async (userId) => {
     try {
-        const booking = await bookingRepository.findUserBookings(userId);
+        const bookings = await bookingRepository.findUserBookings(userId);
 
         return {
             status: 200,
             payload: {
                 success: true,
-                booking
+                data: { booking: bookings }, // keeping 'booking' key for backwards compatibility inside data
+                message: "Fetched successfully"
             }
         };
     } catch (error) {
         console.log(error);
         return {
             status: 500,
-            payload: { success: false }
+            payload: { 
+                success: false,
+                data: {},
+                message: "Server error"
+            }
         };
     }
 };

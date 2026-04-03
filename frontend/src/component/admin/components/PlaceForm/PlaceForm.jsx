@@ -42,8 +42,8 @@ export default function PlaceForm({ place, onClose, onSuccess }) {
             const token = localStorage.getItem("token");
 
             const url = isEditMode
-                ? `http://localhost:5000/api/places/${place._id}`
-                : `http://localhost:5000/api/places`;
+                ? `http://localhost:5000/api/v1/places/${place._id}`
+                : `http://localhost:5000/api/v1/places`;
 
             const method = isEditMode ? "PUT" : "POST";
 

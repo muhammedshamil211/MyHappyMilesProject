@@ -11,17 +11,17 @@ export const getPlaces = async (category) => {
 
         return {
             status: 200,
-            payload: { success: true, places }
+            payload: { success: true, data: { places }, message: "Fetched successfully" }
         };
     } catch (error) {
-        return { status: 500, payload: { success: false, message: "Server error" } };
+        return { status: 500, payload: { success: false, data: {}, message: "Server error" } };
     }
 };
 
 export const addPlace = async (name, category, image, coverImage) => {
     try {
         if (!name || !category || !image || !coverImage) {
-            return { status: 400, payload: { message: "All fields are required" } };
+            return { status: 400, payload: { success: false, data: {}, message: "All fields are required" } };
         }
 
         const place = await placeRepository.createPlace({
@@ -33,11 +33,11 @@ export const addPlace = async (name, category, image, coverImage) => {
 
         return {
             status: 201,
-            payload: { success: true, message: "Place added successfully", place }
+            payload: { success: true, data: { place }, message: "Place added successfully" }
         };
     } catch (error) {
         console.log(error);
-        return { status: 500, payload: { success: false, message: "Failed to add place" } };
+        return { status: 500, payload: { success: false, data: {}, message: "Failed to add place" } };
     }
 };
 
@@ -46,15 +46,15 @@ export const editPlace = async (id, updateBody) => {
         const updatedPlace = await placeRepository.updatePlaceById(id, updateBody);
 
         if (!updatedPlace) {
-            return { status: 404, payload: { success: false, message: "Place not found" } };
+            return { status: 404, payload: { success: false, data: {}, message: "Place not found" } };
         }
 
         return {
             status: 200,
-            payload: { success: true, place: updatedPlace }
+            payload: { success: true, data: { place: updatedPlace }, message: "Place updated successfully" }
         };
     } catch (error) {
-        return { status: 500, payload: { success: false, message: "Server error" } };
+        return { status: 500, payload: { success: false, data: {}, message: "Server error" } };
     }
 };
 
@@ -63,14 +63,14 @@ export const deletePlace = async (id) => {
         const deletedPlace = await placeRepository.deletePlaceById(id);
 
         if (!deletedPlace) {
-            return { status: 404, payload: { success: false, message: "Place not found" } };
+            return { status: 404, payload: { success: false, data: {}, message: "Place not found" } };
         }
 
         return {
             status: 200,
-            payload: { success: true, message: "Place deleted successfully" }
+            payload: { success: true, data: {}, message: "Place deleted successfully" }
         };
     } catch (error) {
-        return { status: 500, payload: { success: false, message: "Server error" } };
+        return { status: 500, payload: { success: false, data: {}, message: "Server error" } };
     }
 };

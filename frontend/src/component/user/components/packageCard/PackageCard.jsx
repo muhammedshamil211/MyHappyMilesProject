@@ -25,7 +25,7 @@ function PackageCard({ packagePlace, placeName }) {
             // We don't necessarily need to wait for this to finish to show the form,
             // so we don't 'await' it if we want maximum speed, 
             // but usually, it's safer to keep it async.
-            await fetch(`http://localhost:5000/api/packages/view/${packagePlace._id}`, {
+            await fetch(`http://localhost:5000/api/v1/packages/view/${packagePlace._id}`, {
                 method: "PUT",
             });
         } catch (err) {

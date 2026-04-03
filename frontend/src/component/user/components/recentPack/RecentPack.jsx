@@ -12,8 +12,8 @@ function PackageStats() {
         try {
             setLoading(true);
             const [resRecent, resPopular] = await Promise.all([
-                fetch('http://localhost:5000/api/packages/recent'),
-                fetch('http://localhost:5000/api/packages/popular')
+                fetch('http://localhost:5000/api/v1/packages/recent'),
+                fetch('http://localhost:5000/api/v1/packages/popular')
             ]);
 
             const [dataRecent, dataPopular] = await Promise.all([
@@ -22,8 +22,8 @@ function PackageStats() {
             ]);
 
             if (dataRecent.success && dataPopular.success) {
-                setRecentPackages(dataRecent.packages);
-                setPopularPackages(dataPopular.packages);
+                setRecentPackages(dataRecent.data.packages);
+                setPopularPackages(dataPopular.data.packages);
             }
 
         } catch (err) {

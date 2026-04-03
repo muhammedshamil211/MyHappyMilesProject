@@ -6,17 +6,16 @@ export const loginUser = async (email, password) => {
     try {
         const user = await authRepository.findUserByEmail(email, true);
         if (!user) {
-            return { status: 404, payload: { message: "User not found" } };
+            return { status: 404, payload: { success: false, data: {}, message: "User not found" } };
         }
 
         if (user.isDeleted) {
-            // Note: Originally returned 200 in the controller
-            return { status: 200, payload: { message: "Account deleted. Contact support" } };
+            return { status: 200, payload: { success: false, data: {}, message: "Account deleted. Contact support" } };
         }
 
         const isMatch = await bcrypt.compare(password, user.password);
         if (!isMatch) {
-            return { status: 404, payload: { success: false, message: "Incorrect password" } };
+            return { status: 404, payload: { success: false, data: {}, message: "Incorrect password" } };
         }
 
         const token = jwt.sign(
@@ -28,19 +27,21 @@ export const loginUser = async (email, password) => {
         return {
             status: 200,
             payload: {
-                message: "Login successful",
                 success: true,
-                token,
-                user: {
-                    id: user._id,
-                    name: user.name,
-                    email: user.email,
-                    role: user.role
-                }
+                data: {
+                    token,
+                    user: {
+                        id: user._id,
+                        name: user.name,
+                        email: user.email,
+                        role: user.role
+                    }
+                },
+                message: "Login successful"
             }
         };
     } catch (error) {
-        return { status: 400, payload: { success: false, message: "Login failed" } };
+        return { status: 400, payload: { success: false, data: {}, message: "Login failed" } };
     }
 };
 
@@ -48,7 +49,7 @@ export const registerUser = async (name, email, password) => {
     try {
         const existingUser = await authRepository.findUserByEmail(email);
         if (existingUser) {
-            return { status: 400, payload: { message: "User already exists" } };
+            return { status: 400, payload: { success: false, data: {}, message: "User already exists" } };
         }
 
         const hashedPassword = await bcrypt.hash(password, 10);
@@ -58,18 +59,15 @@ export const registerUser = async (name, email, password) => {
             password: hashedPassword
         });
 
-        // The original logic didn't return 'user' fully explicitly, it just passed it.
-        // Returning 'user' object just like before.
         return {
             status: 201,
-            payload: { message: 'User registration Successfull', user }
+            payload: { success: true, data: { user }, message: 'User registration Successfull' }
         };
     } catch (error) {
-        console.log(error);
         if (error.name === 'ValidationError') {
-            return { status: 500, payload: { message: "Please enter valid email" } };
+            return { status: 500, payload: { success: false, data: {}, message: "Please enter valid email" } };
         }
-        return { status: 500, payload: { message: 'User registration failed' } };
+        return { status: 500, payload: { success: false, data: {}, message: 'User registration failed' } };
     }
 };
 
@@ -77,38 +75,38 @@ export const updateUserProfile = async (userId, name) => {
     try {
         const user = await authRepository.findUserById(userId);
         if (!user) {
-            return { status: 200, payload: { message: "User not found" } };
+            return { status: 200, payload: { success: false, data: {}, message: "User not found" } };
         }
 
         const updateCount = user.updateCount;
         if (updateCount >= 3) {
-            return { status: 200, payload: { message: "Your updation limit is exceeded" } };
+            return { status: 200, payload: { success: false, data: {}, message: "Your updation limit is exceeded" } };
         }
 
         const updatedUser = await authRepository.updateUserProfile(userId, name, updateCount + 1);
 
         return {
             status: 200,
-            payload: { message: "User updated successfully", user: updatedUser }
+            payload: { success: true, data: { user: updatedUser }, message: "User updated successfully" }
         };
     } catch (error) {
-        return { status: 404, payload: { message: "User updation is failed" } };
+        return { status: 404, payload: { success: false, data: {}, message: "User updation is failed" } };
     }
 };
 
 export const deleteUser = async (userId, userEmail, requestEmail) => {
     try {
         if (requestEmail !== userEmail) {
-            return { status: 200, payload: { message: "invalid email,please enter your email" } };
+            return { status: 200, payload: { success: false, data: {}, message: "invalid email,please enter your email" } };
         }
 
         await authRepository.softDeleteUser(userId);
 
         return {
             status: 200,
-            payload: { message: "profile deleted successfully", delete: true }
+            payload: { success: true, data: { delete: true }, message: "profile deleted successfully" }
         };
     } catch (error) {
-        return { status: 404, payload: { message: "Profile deletion failed" } };
+        return { status: 404, payload: { success: false, data: {}, message: "Profile deletion failed" } };
     }
 };

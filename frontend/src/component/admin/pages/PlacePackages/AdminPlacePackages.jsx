@@ -40,11 +40,11 @@ export default function AdminPlacePackages() {
 
   const handlePackages = async () => {
     try {
-      const res = await fetch(`http://localhost:5000/api/packages/${place._id}`);
+      const res = await fetch(`http://localhost:5000/api/v1/packages/${place._id}`);
 
       const data = await res.json();
       if (data.success) {
-        setPackages(data.packages);
+        setPackages(data.data.packages);
       }
     } catch (err) {
       alert(err);
@@ -75,7 +75,7 @@ export default function AdminPlacePackages() {
     try {
       const token = localStorage.getItem("token");
 
-      const res = await fetch(`http://localhost:5000/api/packages/${deletePackId}`,
+      const res = await fetch(`http://localhost:5000/api/v1/packages/${deletePackId}`,
         {
           method: "DELETE",
           headers: {

@@ -9,10 +9,10 @@ export const PlaceProvider = ({children}) =>{
     
         const handlePlace = async () => {
             try {
-                const res = await fetch(`http://localhost:5000/api/places`);
+                const res = await fetch(`http://localhost:5000/api/v1/places`);
     
                 const data = await res.json();
-                setPlaceList(data.places);
+                setPlaceList(data.data.places);
             } catch (err) {
                 alert(err);
             }

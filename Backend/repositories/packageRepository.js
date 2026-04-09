@@ -32,9 +32,9 @@ export const incrementPackageViews = async (id) => {
     );
 };
 
-export const getPackagesByPlaceId = async (placeId, page, limit) => {
+export const getPackagesByPlaceId = async (placeId, page, limit, sortQuery = { createdAt: -1 }) => {
     const skip = (page - 1) * limit;
-    return await PackageModel.find({ placeId }).skip(skip).limit(limit);
+    return await PackageModel.find({ placeId }).sort(sortQuery).skip(skip).limit(limit);
 };
 
 export const countPackagesByPlaceId = async (placeId) => {

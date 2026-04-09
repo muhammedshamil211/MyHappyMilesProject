@@ -1,11 +1,60 @@
-.head{
+.head {
     font-size: 1.8rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
 }
 
-.navigateText{
+.navigateText {
     font-size: clamp(0.75rem, 0.7143rem + 0.1786vw, 0.875rem);
 }
-.navigateLink{
+
+.navigateLink {
     color: blue;
     cursor: pointer;
+}
+
+/* Auth mode toggle (Email / Mobile buttons) */
+.authToggle {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 15px;
+}
+
+.authToggleBtn {
+    flex: 1;
+    padding: 8px 0;
+    cursor: pointer;
+    background: transparent;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: border 0.2s, color 0.2s;
+}
+
+.authToggleBtnActive {
+    border-bottom: 2px solid #111;
+
+    color: #111;
+    font-weight: 600;
+}
+
+/* Divider between Login button and Google section */
+.divider {
+    margin: 15px 0;
+    border: none;
+    border-bottom: 1px solid #eee;
+}
+
+/* Google Login button container */
+.googleContainer {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 10px;
+}
+
+/* Shown when Google Client ID is not configured */
+.googleDisabled {
+    font-size: 0.8rem;
+    color: #e53e3e;
+    text-align: center;
+    padding: 6px 0;
 }

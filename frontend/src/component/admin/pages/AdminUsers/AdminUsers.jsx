@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import toast from 'react-hot-toast';
 import styles from './AdminUsers.module.css';
+import SortFilterBar from '../../shared/SortFilterBar/SortFilterBar';
+import TableSkeleton from '../AdminAnalytics/TableSkeleton';
 
 export default function AdminUsers() {
     const [users, setUsers] = useState([]);
@@ -11,6 +12,9 @@ export default function AdminUsers() {
     const [page, setPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
 
+    // Sort & Filter state
+    const [filterValues, setFilterValues] = useState({ sortBy: 'newest', role: '', status: '' });
+
     const token = localStorage.getItem("token");
 
     useEffect(() => {
@@ -20,9 +24,9 @@ export default function AdminUsers() {
     useEffect(() => {
         const timer = setTimeout(() => {
             fetchUsers(page, search);
-        }, 500); // Debounce search
+        }, 400);
         return () => clearTimeout(timer);
-    }, [page, search]);
+    }, [page, search, filterValues]);
 
     const fetchTopUsers = async () => {
         try {
@@ -41,7 +45,16 @@ export default function AdminUsers() {
     const fetchUsers = async (currentPage, searchQuery) => {
         setLoading(true);
         try {
-            const res = await fetch(`http://localhost:5000/api/v1/admin/users?page=${currentPage}&limit=10&search=${searchQuery}`, {
+            const { sortBy, role, status } = filterValues;
+            const params = new URLSearchParams({
+                page: currentPage,
+                limit: 10,
+                search: searchQuery,
+                ...(sortBy && { sortBy }),
+                ...(role && { role }),
+                ...(status && { status })
+            });
+            const res = await fetch(`http://localhost:5000/api/v1/admin/users?${params}`, {
                 headers: { "Authorization": `Bearer ${token}` }
             });
             const data = await res.json();
@@ -138,14 +151,42 @@ export default function AdminUsers() {
                         value={search}
                         onChange={(e) => { setSearch(e.target.value); setPage(1); }}
                     />
+                    <SortFilterBar
+                        values={filterValues}
+                        onChange={(key, val) => {
+                            setFilterValues(prev => ({ ...prev, [key]: val }));
+                            setPage(1);
+                        }}
+                        onReset={() => { setFilterValues({ sortBy: 'newest', role: '', status: '' }); setPage(1); }}
+                        sorts={[
+                            { label: 'Newest', value: 'newest' },
+                            { label: 'Oldest', value: 'oldest' },
+                            { label: 'Name A→Z', value: 'name_asc' },
+                            { label: 'Name Z→A', value: 'name_desc' }
+                        ]}
+                        filters={[
+                            {
+                                label: 'Role',
+                                key: 'role',
+                                options: [
+                                    { label: 'All', value: '' },
+                                    { label: 'User', value: 'user' },
+                                    { label: 'Admin', value: 'admin' }
+                                ]
+                            },
+                            {
+                                label: 'Status',
+                                key: 'status',
+                                options: [
+                                    { label: 'All', value: '' },
+                                    { label: 'Active', value: 'active' },
+                                    { label: 'Blocked', value: 'blocked' }
+                                ]
+                            }
+                        ]}
+                    />
                 </div>
 
-                {loading ? (
-                    <p>Loading...</p>
-                ) : users.length === 0 ? (
-                    <p className={styles.emptyState}>No users found.</p>
-                ) : (
-                    <>
                         <table className={styles.table}>
                             <thead>
                                 <tr>
@@ -158,44 +199,54 @@ export default function AdminUsers() {
                                 </tr>
                             </thead>
                             <tbody>
-                                {users.map(user => (
-                                    <tr key={user._id}>
-                                        <td>
-                                            <strong>{user.name}</strong><br/>
-                                            <small>{user.email}</small>
-                                        </td>
-                                        <td>
-                                            <span className={`${styles.badge} ${styles['badge-' + user.status]}`}>
-                                                {user.status || 'active'}
-                                            </span>
-                                        </td>
-                                        <td>
-                                            <span className={`${styles.badge} ${styles['badge-' + user.role]}`}>
-                                                {user.role}
-                                            </span>
-                                        </td>
-                                        <td>
-                                            <span style={{ color: '#ff5100', fontWeight: 'bold' }}>₹{user.totalSpent?.toLocaleString() || 0}</span><br/>
-                                            <small>{user.totalBookings || 0} Bookings</small>
-                                        </td>
-                                        <td>
-                                            {user.lastBookingDate ? new Date(user.lastBookingDate).toLocaleDateString() : 'N/A'}
-                                        </td>
-                                        <td>
-                                            {user.status === 'blocked' ? (
-                                                <button className={styles.actionBtn} onClick={() => handleStatusChange(user._id, 'active')}>Unblock</button>
-                                            ) : (
-                                                <button className={styles.actionBtn} onClick={() => handleStatusChange(user._id, 'blocked')}>Block</button>
-                                            )}
-                                            
-                                            {user.role === 'admin' ? (
-                                                <button className={styles.actionBtn} onClick={() => handleRoleChange(user._id, 'user')}>Demote (User)</button>
-                                            ) : (
-                                                <button className={styles.actionBtn} onClick={() => handleRoleChange(user._id, 'admin')}>Promote (Admin)</button>
-                                            )}
+                                {loading ? (
+                                    <TableSkeleton rows={8} cols={6} />
+                                ) : users.length === 0 ? (
+                                    <tr>
+                                        <td colSpan="6" style={{ textAlign: 'center', padding: '2rem' }}>
+                                            No users found.
                                         </td>
                                     </tr>
-                                ))}
+                                ) : (
+                                    users.map(user => (
+                                        <tr key={user._id}>
+                                            <td>
+                                                <strong>{user.name}</strong><br/>
+                                                <small>{user.email}</small>
+                                            </td>
+                                            <td>
+                                                <span className={`${styles.badge} ${styles['badge-' + user.status]}`}>
+                                                    {user.status || 'active'}
+                                                </span>
+                                            </td>
+                                            <td>
+                                                <span className={`${styles.badge} ${styles['badge-' + user.role]}`}>
+                                                    {user.role}
+                                                </span>
+                                            </td>
+                                            <td>
+                                                <span style={{ color: '#ff5100', fontWeight: 'bold' }}>₹{user.totalSpent?.toLocaleString() || 0}</span><br/>
+                                                <small>{user.totalBookings || 0} Bookings</small>
+                                            </td>
+                                            <td>
+                                                {user.lastBookingDate ? new Date(user.lastBookingDate).toLocaleDateString() : 'N/A'}
+                                            </td>
+                                            <td>
+                                                {user.status === 'blocked' ? (
+                                                    <button className={styles.actionBtn} onClick={() => handleStatusChange(user._id, 'active')}>Unblock</button>
+                                                ) : (
+                                                    <button className={styles.actionBtn} onClick={() => handleStatusChange(user._id, 'blocked')}>Block</button>
+                                                )}
+                                                
+                                                {user.role === 'admin' ? (
+                                                    <button className={styles.actionBtn} onClick={() => handleRoleChange(user._id, 'user')}>Demote (User)</button>
+                                                ) : (
+                                                    <button className={styles.actionBtn} onClick={() => handleRoleChange(user._id, 'admin')}>Promote (Admin)</button>
+                                                )}
+                                            </td>
+                                        </tr>
+                                    ))
+                                )}
                             </tbody>
                         </table>
                         
@@ -216,8 +267,6 @@ export default function AdminUsers() {
                                 Next
                             </button>
                         </div>
-                    </>
-                )}
             </div>
         </div>
     );

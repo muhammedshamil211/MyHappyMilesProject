@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import toast from 'react-hot-toast';
 import styles from './AdminBookings.module.css';
+import SortFilterBar from '../../shared/SortFilterBar/SortFilterBar';
+import TableSkeleton from '../AdminAnalytics/TableSkeleton';
 
 export default function AdminBookings() {
     const [bookings, setBookings] = useState([]);
@@ -8,16 +9,25 @@ export default function AdminBookings() {
     
     const [page, setPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
+    const [filterValues, setFilterValues] = useState({ sortBy: 'newest', status: 'all' });
 
     useEffect(() => {
         fetchBookings(page);
-    }, [page]);
+    }, [page, filterValues]);
 
     const fetchBookings = async (currentPage) => {
         setLoading(true);
         try {
             const token = localStorage.getItem("token");
-            const res = await fetch(`http://localhost:5000/api/v1/admin/bookings?page=${currentPage}&limit=10`, {
+            const { sortBy, status } = filterValues;
+            const params = new URLSearchParams({
+                page: currentPage,
+                limit: 10,
+                ...(sortBy && { sortBy }),
+                ...(status && { status })
+            });
+
+            const res = await fetch(`http://localhost:5000/api/v1/admin/bookings?${params.toString()}`, {
                 headers: {
                     "Authorization": `Bearer ${token}`
                 }
@@ -64,29 +74,57 @@ export default function AdminBookings() {
         <div className={styles.main}>
             <div className={styles.headSection}>
                 <h2 className={styles.head}>All Bookings</h2>
+                <SortFilterBar
+                    values={filterValues}
+                    onChange={(key, val) => {
+                        setFilterValues(prev => ({ ...prev, [key]: val }));
+                        setPage(1);
+                    }}
+                    onReset={() => { setFilterValues({ sortBy: 'newest', status: 'all' }); setPage(1); }}
+                    sorts={[
+                        { label: 'Newest', value: 'newest' },
+                        { label: 'Oldest', value: 'oldest' },
+                        { label: 'Most Pax', value: 'most_pax' }
+                    ]}
+                    filters={[
+                        {
+                            label: 'Status',
+                            key: 'status',
+                            options: [
+                                { label: 'All', value: 'all' },
+                                { label: 'Pending', value: 'pending' },
+                                { label: 'Confirmed', value: 'confirmed' },
+                                { label: 'Cancelled', value: 'cancelled' }
+                            ]
+                        }
+                    ]}
+                />
             </div>
             
             <div className={styles.tableWrapper}>
-                {loading ? (
-                    <p>Loading...</p>
-                ) : bookings.length === 0 ? (
-                    <p className={styles.emptyState}>No bookings found.</p>
-                ) : (
-                    <>
-                        <table className={styles.table}>
-                            <thead>
+                    <table className={styles.table}>
+                        <thead>
+                            <tr>
+                                <th>User Info</th>
+                                <th>Package</th>
+                                <th>Date</th>
+                                <th>Pax</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {loading ? (
+                                <TableSkeleton rows={8} cols={6} />
+                            ) : bookings.length === 0 ? (
                                 <tr>
-                                    <th>User Info</th>
-                                    <th>Package</th>
-                                    <th>Date</th>
-                                    <th>Pax</th>
-                                    <th>Status</th>
-                                    <th>Actions</th>
+                                    <td colSpan="6" style={{ textAlign: 'center', padding: '2rem' }}>
+                                        No bookings found.
+                                    </td>
                                 </tr>
-                            </thead>
-                            <tbody>
-                                {bookings.map(booking => (
-                                    <tr key={booking._id}>
+                            ) : (
+                                bookings.map(booking => (
+                                    <tr key={booking._id} className={styles.bookingRow}>
                                         <td>
                                             <strong>{booking.userId?.name || booking.name}</strong><br/>
                                             <small>{booking.userId?.email || booking.email}</small><br/>
@@ -113,9 +151,10 @@ export default function AdminBookings() {
                                             </select>
                                         </td>
                                     </tr>
-                                ))}
-                            </tbody>
-                        </table>
+                                ))
+                            )}
+                        </tbody>
+                    </table>
                         
                         <div className={styles.pagination}>
                             <button 
@@ -134,8 +173,6 @@ export default function AdminBookings() {
                                 Next
                             </button>
                         </div>
-                    </>
-                )}
             </div>
         </div>
     );

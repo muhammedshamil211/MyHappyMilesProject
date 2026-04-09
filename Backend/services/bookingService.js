@@ -92,11 +92,26 @@ export const cancelBookingService = async (bookingId, userId) => {
     }
 };
 
-export const getAllBookingsAdmin = async (page = 1, limit = 10) => {
+export const getAllBookingsAdmin = async (page = 1, limit = 10, statusFilter = 'all', sortBy = 'newest') => {
     try {
         const skip = (page - 1) * limit;
-        const bookings = await bookingRepository.findAllBookings(skip, limit);
-        const total = await bookingRepository.countAllBookings();
+        
+        // Build filter
+        const filter = {};
+        if (statusFilter && statusFilter !== 'all') {
+            filter.status = statusFilter;
+        }
+
+        // Build sort map
+        const sortMap = {
+            newest: { createdAt: -1 },
+            oldest: { createdAt: 1 },
+            most_pax: { people: -1, createdAt: -1 }
+        };
+        const sortQuery = sortMap[sortBy] || { createdAt: -1 };
+
+        const bookings = await bookingRepository.findAllBookings(skip, limit, filter, sortQuery);
+        const total = await bookingRepository.countAllBookings(filter);
         
         return {
             status: 200,

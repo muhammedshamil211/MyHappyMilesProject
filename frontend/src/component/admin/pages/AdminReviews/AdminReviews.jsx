@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import toast from 'react-hot-toast';
 import style from './AdminReviews.module.css';
 import StarRating from '../../../user/components/reviews/StarRating';
+import ReviewDetailModal from './ReviewDetailModal';
+import SortFilterBar from '../../shared/SortFilterBar/SortFilterBar';
 
 export default function AdminReviews() {
     const [reviews, setReviews] = useState([]);
@@ -9,16 +11,24 @@ export default function AdminReviews() {
     const [page, setPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
     const [loading, setLoading] = useState(false);
+    const [selectedReview, setSelectedReview] = useState(null);
+    const [filterValues, setFilterValues] = useState({ sortBy: 'newest', rating: '' });
 
     useEffect(() => {
         fetchReviews(page, statusFilter);
-    }, [page, statusFilter]);
+    }, [page, statusFilter, filterValues]);
 
     const fetchReviews = async (p, status) => {
         try {
             setLoading(true);
             const token = localStorage.getItem("token");
-            const res = await fetch(`http://localhost:5000/api/v1/admin/reviews?page=${p}&limit=8&status=${status}`, {
+            const { sortBy, rating } = filterValues;
+            const params = new URLSearchParams({
+                page: p, limit: 8, status,
+                ...(sortBy && { sortBy }),
+                ...(rating && { rating })
+            });
+            const res = await fetch(`http://localhost:5000/api/v1/admin/reviews?${params}`, {
                 headers: { Authorization: `Bearer ${token}` }
             });
             const data = await res.json();
@@ -81,16 +91,47 @@ export default function AdminReviews() {
         <div className={style.main}>
             <div className={style.topSection}>
                 <h1>Review Moderation</h1>
-                <div className={style.filters}>
-                    {['all', 'active', 'reported', 'hidden'].map((st) => (
-                        <button
-                            key={st}
-                            className={`${style.filterBtn} ${statusFilter === st ? style.activeFilter : ''}`}
-                            onClick={() => { setStatusFilter(st); setPage(1); }}
-                        >
-                            {st.charAt(0).toUpperCase() + st.slice(1)}
-                        </button>
-                    ))}
+                <div className={style.topControls}>
+                    <div className={style.filters}>
+                        {['all', 'active', 'reported', 'hidden'].map((st) => (
+                            <button
+                                key={st}
+                                className={`${style.filterBtn} ${statusFilter === st ? style.activeFilter : ''}`}
+                                onClick={() => { setStatusFilter(st); setPage(1); }}
+                            >
+                                {st.charAt(0).toUpperCase() + st.slice(1)}
+                            </button>
+                        ))}
+                    </div>
+                    <SortFilterBar
+                        values={filterValues}
+                        onChange={(key, val) => {
+                            setFilterValues(prev => ({ ...prev, [key]: val }));
+                            setPage(1);
+                        }}
+                        onReset={() => { setFilterValues({ sortBy: 'newest', rating: '' }); setPage(1); }}
+                        sorts={[
+                            { label: 'Newest', value: 'newest' },
+                            { label: 'Oldest', value: 'oldest' },
+                            { label: 'Most Liked', value: 'liked' },
+                            { label: 'Highest Rated', value: 'highest' },
+                            { label: 'Lowest Rated', value: 'lowest' }
+                        ]}
+                        filters={[
+                            {
+                                label: 'Min Rating',
+                                key: 'rating',
+                                options: [
+                                    { label: 'All', value: '' },
+                                    { label: '⭐ 1+', value: '1' },
+                                    { label: '⭐ 2+', value: '2' },
+                                    { label: '⭐ 3+', value: '3' },
+                                    { label: '⭐ 4+', value: '4' },
+                                    { label: '⭐ 5', value: '5' }
+                                ]
+                            }
+                        ]}
+                    />
                 </div>
             </div>
 
@@ -134,6 +175,7 @@ export default function AdminReviews() {
                                         </td>
                                         <td>
                                             <div className={style.actionButtons}>
+                                                <button className={style.btnView} onClick={() => setSelectedReview(r)}>View</button>
                                                 {r.status !== 'active' && (
                                                     <button className={style.btnApprove} onClick={() => updateStatus(r._id, 'active')}>Approve</button>
                                                 )}
@@ -161,6 +203,15 @@ export default function AdminReviews() {
                     <span>Page {page} of {totalPages}</span>
                     <button disabled={page === totalPages} onClick={() => setPage(page + 1)} className={style.pageBtn}>Next</button>
                 </div>
+            )}
+
+            {/* Review Detail Modal */}
+            {selectedReview && (
+                <ReviewDetailModal
+                    review={selectedReview}
+                    onClose={() => setSelectedReview(null)}
+                    onStatusChange={() => fetchReviews(page, statusFilter)}
+                />
             )}
         </div>
     );

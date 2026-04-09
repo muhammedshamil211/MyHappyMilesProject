@@ -34,8 +34,8 @@ export const incView = async (req, res) => {
 };
 
 export const getPackageList = async (req, res) => {
-    const { page = 1, limit = 6 } = req.query;
-    const { status, payload } = await packageService.getPackageList(req.params.placeId, page, limit);
+    const { page = 1, limit = 6, sortBy = 'newest' } = req.query;
+    const { status, payload } = await packageService.getPackageList(req.params.placeId, page, limit, sortBy);
     res.status(status).json(payload);
 };
 

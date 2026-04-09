@@ -14,7 +14,7 @@ export default function AdminNavbar({ toggleSidebar }) {
                 </button>
                 <h1 className={style.h1}>Admin: {user.name}</h1>
             </div>
-            <img src={logo} alt="logo" className={style.img}/>
+            <img src={logo} alt="logo" className={style.img} />
         </div>
     );
 }

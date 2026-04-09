@@ -13,12 +13,19 @@ export const AdminPlaceProvider = ({ children }) => {
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
     const [total, setTotal] = useState(0);
+    const [filterValues, setFilterValues] = useState({ sortBy: 'newest' });
 
-    const handlePlace = useCallback(async (page = currentPage) => {
+    const handlePlace = useCallback(async (pageArg) => {
         try {
             setLoading(true);
+            const { sortBy } = filterValues;
+            const targetPage = pageArg || currentPage;
 
-            const params = new URLSearchParams({ page, limit: LIMIT });
+            const params = new URLSearchParams({ 
+                page: targetPage, 
+                limit: LIMIT,
+                ...(sortBy && { sortBy })
+            });
             if (category && category !== 'all') params.set('category', category);
 
             const res = await fetch(`http://localhost:5000/api/v1/places?${params}`);
@@ -36,13 +43,12 @@ export const AdminPlaceProvider = ({ children }) => {
         } finally {
             setLoading(false);
         }
-    }, [category, currentPage]);
+    }, [category, filterValues, currentPage]);
 
-    // Re-fetch when category changes — reset to page 1
+    // Re-fetch when category or filters change — reset to page 1
     useEffect(() => {
-        setCurrentPage(1);
         handlePlace(1);
-    }, [category]);
+    }, [category, filterValues]);
 
     // Re-fetch when page changes (but NOT on category change — that's handled above)
     const goToPage = (page) => {
@@ -61,6 +67,8 @@ export const AdminPlaceProvider = ({ children }) => {
             totalPages,
             total,
             goToPage,
+            filterValues,
+            setFilterValues
         }}>
             {children}
         </AdminPlaceContext.Provider>

@@ -84,12 +84,21 @@ export const incView = async (id) => {
     }
 };
 
-export const getPackageList = async (placeId, page = 1, limit = DEFAULT_LIMIT) => {
+export const getPackageList = async (placeId, page = 1, limit = DEFAULT_LIMIT, sortBy = 'newest') => {
     try {
         const pageNum = parseInt(page) || 1;
         const limitNum = parseInt(limit) || DEFAULT_LIMIT;
 
-        const packages = await packageRepository.getPackagesByPlaceId(placeId, pageNum, limitNum);
+        const sortMap = {
+            newest: { createdAt: -1 },
+            oldest: { createdAt: 1 },
+            price_asc: { price: 1 },
+            price_desc: { price: -1 },
+            popular: { views: -1 }
+        };
+        const sortQuery = sortMap[sortBy] || { createdAt: -1 };
+
+        const packages = await packageRepository.getPackagesByPlaceId(placeId, pageNum, limitNum, sortQuery);
         const total = await packageRepository.countPackagesByPlaceId(placeId);
         const totalPages = Math.ceil(total / limitNum);
 

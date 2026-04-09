@@ -1,6 +1,39 @@
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
+import crypto from 'crypto';
 import * as authRepository from '../repositories/authRepository.js';
+import RefreshToken from '../models/RefreshToken.js';
+import User from '../models/User.js';
+
+export const generateTokens = async (user, deviceFingerprint = 'unknown') => {
+    // 15 Minutes Access Token
+    const accessToken = jwt.sign(
+        { id: user._id, role: user.role, name: user.name, email: user.email, isEmailVerified: user.isEmailVerified },
+        process.env.JWT_SECRET,
+        { expiresIn: "15m" }
+    );
+
+    // 7 Days Refresh Token payload
+    const refreshTokenPayload = crypto.randomBytes(40).toString('hex');
+    const refreshHash = crypto.createHash('sha256').update(refreshTokenPayload).digest('hex');
+
+    // Store in DB safely
+    const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
+    
+    // Optional: revoke old sessions from this exact device fingerprint
+    await RefreshToken.deleteMany({ userId: user._id, deviceFingerprint });
+
+    const newRT = new RefreshToken({
+        userId: user._id,
+        tokenHash: refreshHash,
+        deviceFingerprint,
+        expiresAt
+    });
+
+    await newRT.save();
+
+    return { accessToken, refreshToken: refreshTokenPayload };
+};
 
 export const loginUser = async (email, password) => {
     try {
@@ -26,23 +59,21 @@ export const loginUser = async (email, password) => {
         user.lastLogin = new Date();
         await user.save();
 
-        const token = jwt.sign(
-            { id: user._id, role: user.role, name: user.name, email: user.email },
-            process.env.JWT_SECRET,
-            { expiresIn: "1d" }
-        );
+        const { accessToken, refreshToken } = await generateTokens(user, "manual_login");
 
         return {
             status: 200,
             payload: {
                 success: true,
                 data: {
-                    token,
+                    token: accessToken, // Retain backward compat prop name 'token' mostly
+                    refreshToken,
                     user: {
                         id: user._id,
                         name: user.name,
                         email: user.email,
-                        role: user.role
+                        role: user.role,
+                        isEmailVerified: user.isEmailVerified
                     }
                 },
                 message: "Login successful"
@@ -64,7 +95,8 @@ export const registerUser = async (name, email, password) => {
         const user = await authRepository.createUser({
             name,
             email,
-            password: hashedPassword
+            password: hashedPassword,
+            isEmailVerified: false
         });
 
         return {

@@ -12,14 +12,25 @@ import AdminPackageDetails from './component/admin/pages/PackageDetails/AdminPac
 import AdminBookings from './component/admin/pages/AdminBookings/AdminBookings';
 import AdminUsers from './component/admin/pages/AdminUsers/AdminUsers';
 import AdminReviews from './component/admin/pages/AdminReviews/AdminReviews';
+import AdminPackageAnalytics from './component/admin/pages/AdminAnalytics/AdminPackageAnalytics';
+import PackageDetailedAnalytics from './component/admin/pages/AdminAnalytics/PackageDetailedAnalytics';
 import PackageDetailsPage from './pages/PackageDetailsPage';
 import PackagesPage from './pages/PackagesPage';
 import MyOrdersPage from './pages/MyOrdersPage';
 import ScrollToHash from './component/user/components/ScrollToHash';
+import UserPublicRoute from './component/user/UserPrivateRoute/UserPublicRoute';
 import UserPrivateRoute from './component/user/UserPrivateRoute/UserPrivateRoute';
 import { Toaster } from 'react-hot-toast';
+import { useContext } from 'react';
+import { LoginContext } from './context/LoginContext';
+import LoadingSplash from './component/shared/Loading/LoadingSplash';
 
 function App() {
+  const { initializing } = useContext(LoginContext);
+
+  if (initializing) {
+    return <LoadingSplash />;
+  }
 
   return (
     <PlaceProvider>
@@ -29,11 +40,11 @@ function App() {
           <ScrollToHash />
           <Routes>
             {/* User routes */}
-            <Route path='/' element={<Homepage />} />
-            <Route path="/place/:name" element={<PlacePage />} />
-            <Route path="/package/:id" element={<PackageDetailsPage />} />
-            <Route path="/packages" element={<PackagesPage />} />
-            
+            <Route path='/' element={<UserPublicRoute><Homepage /></UserPublicRoute>} />
+            <Route path="/place/:name" element={<UserPublicRoute><PlacePage /></UserPublicRoute>} />
+            <Route path="/package/:id" element={<UserPublicRoute><PackageDetailsPage /></UserPublicRoute>} />
+            <Route path="/packages" element={<UserPublicRoute><PackagesPage /></UserPublicRoute>} />
+
             <Route path="/my-orders" element={<UserPrivateRoute><MyOrdersPage /></UserPrivateRoute>} />
 
             {/* Admin routes */}
@@ -44,6 +55,8 @@ function App() {
               <Route path='bookings' element={<AdminBookings />} />
               <Route path='users' element={<AdminUsers />} />
               <Route path='reviews' element={<AdminReviews />} />
+              <Route path='package-analytics' element={<AdminPackageAnalytics />} />
+              <Route path='package-analytics/:id' element={<PackageDetailedAnalytics />} />
             </Route>
           </Routes>
         </BrowserRouter>

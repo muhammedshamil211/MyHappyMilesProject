@@ -1,8 +1,8 @@
 import * as placeService from '../services/placeService.js';
 
 export const getPlace = async (req, res) => {
-    const { category, page = 1, limit = 10 } = req.query;
-    const { status, payload } = await placeService.getPlaces(category, page, limit);
+    const { category, page = 1, limit = 10, sortBy = 'newest' } = req.query;
+    const { status, payload } = await placeService.getPlaces(category, page, limit, sortBy);
     res.status(status).json(payload);
 };
 

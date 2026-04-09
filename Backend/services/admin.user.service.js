@@ -7,9 +7,9 @@ import mongoose from 'mongoose';
  */
 export const getAllUsersWithAnalytics = async (query = {}) => {
     try {
-        const { search, page = 1, limit = 10, role, status } = query;
+        const { search, page = 1, limit = 10, role, status, sortBy = 'newest' } = query;
         
-        // 1. Build initial match for User filtering (search, role, status)
+        // 1. Build initial match for User filtering
         const matchStage = {};
         
         if (search) {
@@ -18,27 +18,26 @@ export const getAllUsersWithAnalytics = async (query = {}) => {
                 { email: { $regex: search, $options: 'i' } }
             ];
         }
-        
-        if (role) {
-            matchStage.role = role;
-        }
-        
-        if (status) {
-            matchStage.status = status;
-        }
-
-        // Must not be deleted unless looking for them (defaults to false)
+        if (role)   matchStage.role = role;
+        if (status) matchStage.status = status;
         matchStage.isDeleted = false;
 
         const skip = (parseInt(page) - 1) * parseInt(limit);
         const limitInt = parseInt(limit);
 
+        // Dynamic sort map
+        const sortMap = {
+            newest:    { createdAt: -1 },
+            oldest:    { createdAt: 1 },
+            name_asc:  { name: 1 },
+            name_desc: { name: -1 },
+        };
+        const sortStage = sortMap[sortBy] || { createdAt: -1 };
+
         // Core Aggregation Pipeline
         const pipeline = [
             { $match: matchStage },
-            // Sort by creation date by default to stabilize pagination layer
-            { $sort: { createdAt: -1 } },
-            // Attach pagination skip/limit
+            { $sort: sortStage },
             { $skip: skip },
             { $limit: limitInt },
             // Lookup bookings specific to this user

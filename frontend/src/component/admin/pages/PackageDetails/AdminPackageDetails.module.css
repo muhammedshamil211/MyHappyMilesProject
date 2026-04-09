@@ -22,16 +22,22 @@
 }
 
 .backBtn {
-    background: none;
-    border: 1.5px solid #d1d5db;
-    padding: 0.4rem 0.9rem;
-    border-radius: 6px;
+    background: #f1f5f9;
+    color: #475569;
+    border: 1px solid #e2e8f0;
+    padding: 6px 14px;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    font-weight: 600;
     cursor: pointer;
-    font-size: 0.9rem;
-    color: #374151;
     transition: all 0.2s;
+    display: flex;
+    align-items: center;
 }
-.backBtn:hover { background: #f3f4f6; }
+.backBtn:hover {
+    background: #e2e8f0;
+    color: #1e293b;
+}
 
 .title {
     font-size: 1.6rem;

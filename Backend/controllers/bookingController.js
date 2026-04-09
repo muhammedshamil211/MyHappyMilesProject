@@ -30,8 +30,13 @@ export const cancelBooking = async (req, res) => {
 };
 
 export const getAdminBookings = async (req, res) => {
-    const { page = 1, limit = 10 } = req.query;
-    const { status, payload } = await bookingService.getAllBookingsAdmin(Number(page), Number(limit));
+    const { page = 1, limit = 10, status: statusFilter = 'all', sortBy = 'newest' } = req.query;
+    const { status, payload } = await bookingService.getAllBookingsAdmin(
+        Number(page), 
+        Number(limit), 
+        statusFilter, 
+        sortBy
+    );
     res.status(status).json(payload);
 };
 

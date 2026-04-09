@@ -10,7 +10,8 @@ const bookingSchema = new mongoose.Schema({
     packageId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Package",
-        required: true
+        required: true,
+        index: true
     },
     name: String,
     email: String,
@@ -46,6 +47,8 @@ const bookingSchema = new mongoose.Schema({
         default: 'unpaid'
     }
 }, { timestamps: true });
+
+bookingSchema.index({ packageId: 1, createdAt: -1 });
 
 const BookingModel = mongoose.model('Booking', bookingSchema);
 export default BookingModel;

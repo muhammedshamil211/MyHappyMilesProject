@@ -6,6 +6,7 @@ import FormDiv from '../../component/user/layout/form/FormDiv'
 import CloseButton from '../../component/user/components/ui/closeButton/CloseButton';
 import Input from '../../component/user/components/ui/inputArea/Input';
 import style from './SignUpPage.module.css'
+import OTPModal from '../../component/auth/OTPModal';
 import { LoginContext } from '../../context/LoginContext';
 
 function SignUpPage() {
@@ -15,6 +16,7 @@ function SignUpPage() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
+    const [showOTP, setShowOTP] = useState(false); // After register, ask for email OTP
 
     if (!signUp) return null;
 
@@ -42,29 +44,52 @@ function SignUpPage() {
         try {
             const res = await fetch("http://localhost:5000/api/v1/auth/register", {
                 method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                    name: name,
-                    email: email,
-                    password: password
-                })
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ name, email, password })
             });
 
             const data = await res.json();
 
             if (!data.success) {
                 toast.error(data.message);
-                setSignUp(false);
-                setLogin(true);
+                // Account already exists — redirect to login
+                if (data.message?.toLowerCase().includes('already')) {
+                    setSignUp(false);
+                    setLogin(true);
+                }
             } else {
-                toast.success(data.message);
+                // Account created — send OTP to verify email
+                toast.success('Account created! Check your email for the OTP.');
+                
+                await fetch("http://localhost:5000/api/v1/auth/otp/send", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ identifier: email, purpose: 'verify' })
+                });
+
+                // Switch to OTP verification step
+                setShowOTP(true);
             }
         } catch (error) {
             toast.error('Server error');
-            console.log(error)
         }
+    }
+
+    // After registration: show OTP verification step (not the signup form)
+    if (showOTP) {
+        return (
+            <OTPModal
+                identifier={email}
+                purpose="verify"
+                onClose={() => { setShowOTP(false); setSignUp(false); }}
+                onSuccess={() => {
+                    toast.success('Email verified! You can now log in.');
+                    setShowOTP(false);
+                    setSignUp(false);
+                    setLogin(true); // Redirect to login after verification
+                }}
+            />
+        );
     }
 
     return (
@@ -85,7 +110,7 @@ function SignUpPage() {
                 />
                 <Input
                     type="password"
-                    placeholder="Enter your password"
+                    placeholder="Enter your password (min 6 chars)"
                     onChange={(e) => setPassword(e.target.value)}
                 />
 
@@ -97,7 +122,7 @@ function SignUpPage() {
             </FormDiv>
         </Popup >
 
-    )
+    );
 }
 
 export default SignUpPage

@@ -3,9 +3,11 @@ import toast from 'react-hot-toast';
 import { AdminPlaceContext } from '../../context/AdminPlaceContext'
 import style from './AdminPlace.module.css'
 import AdminPlaceCard from '../../components/PlaceCard/AdminPlaceCard'
+import AdminPlaceCardSkeleton from '../../components/PlaceCard/AdminPlaceCardSkeleton'
 import PreviewImage from '../../components/previwImage/PreviewImage'
 import PlaceForm from '../../components/PlaceForm/PlaceForm'
 import DeleteConfirm from '../../components/deleteConformation/DeletePlace'
+import SortFilterBar from '../../shared/SortFilterBar/SortFilterBar';
 
 
 export default function AdminPlace() {
@@ -19,6 +21,8 @@ export default function AdminPlace() {
         currentPage,
         totalPages,
         goToPage,
+        filterValues,
+        setFilterValues
     } = useContext(AdminPlaceContext);
 
 
@@ -67,7 +71,19 @@ export default function AdminPlace() {
         <div className={style.main}>
             <div className={style.headSection}>
                 <h1 className={style.head}>Places</h1>
-                <div>
+                <div className={style.headerActions}>
+                    <SortFilterBar
+                        values={filterValues}
+                        onChange={(key, val) => setFilterValues(prev => ({ ...prev, [key]: val }))}
+                        onReset={() => setFilterValues({ sortBy: 'newest' })}
+                        sorts={[
+                            { label: 'Newest First', value: 'newest' },
+                            { label: 'Oldest First', value: 'oldest' },
+                            { label: 'Name: A-Z', value: 'name_asc' },
+                            { label: 'Name: Z-A', value: 'name_desc' }
+                        ]}
+                    />
+
                     <div className={style.addButton}>
                         <h4 className={style.h4}>Add Place</h4>
                         <span
@@ -104,14 +120,13 @@ export default function AdminPlace() {
             </ul>
 
 
-            {loading && <p>Loading.....</p>}
-
-
             <div className={`${style.grid} ${animate ? style.animate : ''}`} key={`${category}-${currentPage}`}>
-
-                {adminPlaceList.length === 0 && !loading
-                    ? <p>Place not found</p>
-                    : adminPlaceList.map(place => (
+                {loading ? (
+                    Array.from({ length: 6 }).map((_, i) => <AdminPlaceCardSkeleton key={i} />)
+                ) : adminPlaceList.length === 0 ? (
+                    <p>Place not found</p>
+                ) : (
+                    adminPlaceList.map(place => (
                         <AdminPlaceCard
                             key={place._id}
                             place={place}
@@ -122,12 +137,13 @@ export default function AdminPlace() {
                             }}
                             onDelete={() => setDeletePlace(place)}
                         />
-                    ))}
+                    ))
+                )}
             </div>
 
             {/* Server-driven pagination */}
             {totalPages > 1 && (
-                <div className={style.paginaton}>
+                <div className={style.pagination}>
                     <button
                         disabled={currentPage === 1}
                         onClick={() => goToPage(currentPage - 1)}

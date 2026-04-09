@@ -7,19 +7,31 @@ const userSchema = new mongoose.Schema({
     },
     email: {
         type: String,
-        required: true,
         unique: true,
+        sparse: true, // Allows null/missing email for mobile-only users
         lowercase: true,
-        index: true,
         match: [
             /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/,
             "Please enter valid email"
         ]
     },
+    phone: {
+        type: String,
+        sparse: true,
+        index: true
+    },
+    isEmailVerified: {
+        type: Boolean,
+        default: false
+    },
+    googleId: {
+        type: String,
+        sparse: true,
+        index: true
+    },
     password: {
         type: String,
-        required: true,
-        select: false
+        select: false // Only required for manual email/password auth 
     },
     role: {
         type: String,

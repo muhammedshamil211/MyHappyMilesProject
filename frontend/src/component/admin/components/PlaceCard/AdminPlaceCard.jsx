@@ -10,42 +10,41 @@ export default function AdminPlaceCard({ place, onPreview, onEdit, onDelete }) {
 
   return (
     <div className={style.card}>
-      <h1 className={style.head}>{place.name}</h1>
-      <hr />
-
-      <div className={style.imageGrid}>
-        <div className={style.cardRow}>
-          <p className={style.p}>Profile picture -</p>
-          <p className={style.p2}>click the button to preview the image</p>
-          <button
-            className={style.preview}
+      <div className={style.imageHeader}>
+        <img src={place.image} alt={place.name} className={style.mainImage} />
+        <div className={style.badge}>{place.category}</div>
+        <div className={style.imageOverlay}>
+          <button 
+            className={style.previewBtn} 
             onClick={() => onPreview(place.image)}
+            title="Preview Main Image"
           >
-            preview image
+            👁️
           </button>
-        </div>
-
-        <div className={style.cardRow}>
-          <p className={style.p}>CoverImage -</p>
-          <p className={style.p2}>click the button to preview the image</p>
-          <button
-            className={style.preview}
+          <button 
+            className={style.previewBtn} 
             onClick={() => onPreview(place.coverImage)}
+            title="Preview Cover Image"
           >
-            preview image
+            🖼️
           </button>
         </div>
       </div>
-      <div className={style.cardRow}>
-        <p className={style.p}>Packages -</p>
-        <Link to={`/admin/places/${place.name}`}><button className={`${style.edit} ${style.button}`}>Open Packages</button></Link>
-      </div>
-      <div className={style.actionDiv}>
-        <button className={`${style.edit} ${style.button} `} onClick={onEdit}>Edit</button>
-        <button className={`${style.delete} ${style.button} `} onClick={onDelete}>Delete</button>
-      </div>
+      
+      <div className={style.cardContent}>
+        <h3 className={style.cardTitle}>{place.name}</h3>
+        
+        <div className={style.statsRow}>
+           <Link to={`/admin/places/${place.name}`} className={style.packageLink}>
+             <span>📦 Open Packages</span>
+           </Link>
+        </div>
 
-
+        <div className={style.actionRow}>
+          <button className={style.btnEdit} onClick={onEdit}>Edit</button>
+          <button className={style.btnDelete} onClick={onDelete}>Delete</button>
+        </div>
+      </div>
     </div>
   )
 }

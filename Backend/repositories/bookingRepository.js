@@ -35,11 +35,11 @@ export const updateBookingById = async (bookingId, updateData) => {
     return await BookingModel.findByIdAndUpdate(bookingId, updateData, { new: true });
 };
 
-export const findAllBookings = async (skip = 0, limit = 10) => {
-    return await BookingModel.find()
+export const findAllBookings = async (skip = 0, limit = 10, filter = {}, sortQuery = { createdAt: -1 }) => {
+    return await BookingModel.find(filter)
         .skip(skip)
         .limit(limit)
-        .sort({ createdAt: -1 })
+        .sort(sortQuery)
         .populate({
             path: "packageId",
             select: "title"
@@ -50,6 +50,6 @@ export const findAllBookings = async (skip = 0, limit = 10) => {
         });
 };
 
-export const countAllBookings = async () => {
-    return await BookingModel.countDocuments();
+export const countAllBookings = async (filter = {}) => {
+    return await BookingModel.countDocuments(filter);
 };

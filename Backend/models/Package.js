@@ -69,7 +69,8 @@ const packageSchema = new mongoose.Schema({
 
     views: {
         type: Number,
-        default: 0
+        default: 0,
+        index: true
     },
 
     // Review System Tracking

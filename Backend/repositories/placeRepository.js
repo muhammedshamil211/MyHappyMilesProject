@@ -1,28 +1,17 @@
 import PlaceModel from "../models/Place.js";
 
 /**
- * Get all places with pagination.
- * @param {number} page  - 1-indexed page number
- * @param {number} limit - items per page
+ * Get places with flexible filtering and sorting.
  */
-export const findAllPlaces = async (page, limit) => {
+export const getPlaces = async (filter = {}, page = 1, limit = 10, sortQuery = { createdAt: -1 }) => {
     const skip = (page - 1) * limit;
-    return await PlaceModel.find({}).skip(skip).limit(limit);
+    return await PlaceModel.find(filter).sort(sortQuery).skip(skip).limit(limit);
 };
 
 /**
- * Get places filtered by category with pagination.
+ * Count total documents with filter.
  */
-export const findPlacesByCategory = async (category, page, limit) => {
-    const skip = (page - 1) * limit;
-    return await PlaceModel.find({ category }).skip(skip).limit(limit);
-};
-
-/**
- * Count total documents, optionally filtered by category.
- */
-export const countPlaces = async (category) => {
-    const filter = category ? { category } : {};
+export const countPlaces = async (filter = {}) => {
     return await PlaceModel.countDocuments(filter);
 };
 

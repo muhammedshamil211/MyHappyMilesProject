@@ -40,19 +40,29 @@ const updatePackageRating = async (packageId) => {
 
 export const getAllReviews = async (req, res) => {
     try {
-        const page = parseInt(req.query.page) || 1;
-        const limit = parseInt(req.query.limit) || 10;
-        const status = req.query.status; // optional filter
+        const page   = parseInt(req.query.page) || 1;
+        const limit  = parseInt(req.query.limit) || 10;
+        const status = req.query.status;
+        const sortBy = req.query.sortBy || 'newest';
+        const rating = parseInt(req.query.rating) || null;
 
-        let matchQuery = {};
-        if (status && status !== 'all') {
-            matchQuery.status = status;
-        }
+        const matchQuery = {};
+        if (status && status !== 'all') matchQuery.status = status;
+        if (rating) matchQuery.rating = { $gte: rating };
+
+        const sortMap = {
+            newest:  { createdAt: -1 },
+            oldest:  { createdAt: 1  },
+            liked:   { likesCount: -1, createdAt: -1 },
+            highest: { rating: -1, createdAt: -1 },
+            lowest:  { rating: 1,  createdAt: -1 }
+        };
+        const sortQuery = sortMap[sortBy] || { createdAt: -1 };
 
         const skip = (page - 1) * limit;
 
         const reviews = await Review.find(matchQuery)
-            .sort({ createdAt: -1 })
+            .sort(sortQuery)
             .skip(skip)
             .limit(limit)
             .populate('userId', 'name email profilePic')
@@ -128,5 +138,41 @@ export const deleteReview = async (req, res) => {
     } catch (error) {
         console.error("Delete review error:", error);
         res.status(500).json({ success: false, message: "Server error deleting review" });
+    }
+};
+
+// GET full review detail with replies (for the admin detail modal)
+export const getReviewReplies = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const adminUserId = req.user.id;
+
+        const review = await Review.findById(id)
+            .populate('userId', 'name email')
+            .populate('packageId', 'title')
+            .lean();
+
+        if (!review) {
+            return res.status(404).json({ success: false, message: "Review not found" });
+        }
+
+        const replies = await Reply.find({ reviewId: id })
+            .populate('userId', 'name role')
+            .sort({ createdAt: 1 })
+            .lean();
+
+        const isLiked = review.likedBy?.map(id => id.toString()).includes(adminUserId.toString());
+
+        res.status(200).json({
+            success: true,
+            data: {
+                replies,
+                isLiked: !!isLiked,
+                likesCount: review.likesCount ?? 0
+            }
+        });
+    } catch (error) {
+        console.error("Error fetching review replies:", error);
+        res.status(500).json({ success: false, message: "Server error" });
     }
 };

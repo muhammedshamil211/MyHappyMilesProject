@@ -2,18 +2,60 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    height: 64px;
+    height: 70px;
     padding-inline: 24px;
     background-color: white;
-    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05); /* Premium soft shadow */
+    z-index: 10;
+}
+
+.leftSection {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.hamburger {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+}
+
+.bar {
+    width: 24px;
+    height: 3px;
+    background-color: #333;
+    border-radius: 4px;
+    transition: all 0.3s ease;
 }
 
 .h1 {
-    font-size: 20px;
+    font-size: 1.25rem;
     font-weight: 600;
+    color: #2b2b2b;
+    margin: 0;
 }
 
 .img {
-    width: 120px;
-    margin-right: 2rem;
+    height: 40px;
+    object-fit: contain;
+}
+
+/* Responsive CSS */
+@media screen and (max-width: 900px) {
+    .hamburger {
+        display: flex;
+    }
+    
+    .nav {
+        padding-inline: 16px;
+    }
+
+    .img {
+        display: none; /* Hide logo on mobile admin nav for space, or just size it down */
+    }
 }

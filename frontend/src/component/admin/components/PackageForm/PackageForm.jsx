@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import toast from 'react-hot-toast';
 import Popup from "../../../user/layout/Popup/Popup";
 import style from "./PackageForm.module.css"
 
@@ -39,6 +40,17 @@ export default function PackageForm({ pack, place, onClose, onSuccess }) {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        if (!formData.title || !formData.description || !formData.image || !formData.duration || !formData.price) {
+            toast.error("All fields are required");
+            return;
+        }
+
+        if (isNaN(formData.price) || formData.price <= 0) {
+            toast.error("Please enter a valid price");
+            return;
+        }
+
         setLoading(true);
 
         try {
@@ -62,14 +74,15 @@ export default function PackageForm({ pack, place, onClose, onSuccess }) {
 
             if (data.success) {
                 console.log("Success! Refreshing list...");
+                toast.success("Package created successfully!");
                 onSuccess(); 
             } else {
-                alert(data.message || "Something went wrong");
+                toast.error(data.message || "Something went wrong");
             }
 
         } catch (err) {
             console.error("Fetch error:", err);
-            alert("Server error. Please try again.");
+            toast.error("Server error. Please try again.");
         } finally {
             setLoading(false);
         }

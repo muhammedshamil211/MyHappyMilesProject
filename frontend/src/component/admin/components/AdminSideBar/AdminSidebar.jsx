@@ -1,16 +1,20 @@
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import style from './AdminSideBar.module.css'
 
-export default function AdminSidebar() {
+export default function AdminSidebar({ closeSidebar }) {
   return (
     <div className={style.container}>
-      <h2 className={style.h2}>Admin Panel</h2>
+      <div className={style.header}>
+          <h2 className={style.h2}>Admin Panel</h2>
+          <button className={style.closeBtn} onClick={closeSidebar}>×</button>
+      </div>
 
       <ul className={style.list}>
-        <li><Link to="/admin">Dashboard</Link></li>
-        <li><Link to="/admin/users">Users</Link></li>
-        <li><Link to="/admin/bookings">Bookings</Link></li>
-        <li><Link to="/admin/places">Places & Packages</Link></li>
+        <li><NavLink to="/admin" end className={({ isActive }) => isActive ? style.activeLink : style.link} onClick={closeSidebar}>Dashboard</NavLink></li>
+        <li><NavLink to="/admin/users" className={({ isActive }) => isActive ? style.activeLink : style.link} onClick={closeSidebar}>Users</NavLink></li>
+        <li><NavLink to="/admin/bookings" className={({ isActive }) => isActive ? style.activeLink : style.link} onClick={closeSidebar}>Bookings</NavLink></li>
+        <li><NavLink to="/admin/places" className={({ isActive }) => isActive ? style.activeLink : style.link} onClick={closeSidebar}>Places & Packages</NavLink></li>
+        <li><NavLink to="/admin/reviews" className={({ isActive }) => isActive ? style.activeLink : style.link} onClick={closeSidebar}>Reviews</NavLink></li>
       </ul>
     </div>
   );

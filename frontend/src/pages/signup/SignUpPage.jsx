@@ -1,4 +1,5 @@
 import React, { useContext, useState } from 'react'
+import toast from 'react-hot-toast';
 import Button from '../../component/user/components/ui/button/Button';
 import Popup from '../../component/user/layout/Popup/Popup';
 import FormDiv from '../../component/user/layout/form/FormDiv'
@@ -22,19 +23,19 @@ function SignUpPage() {
 
         if (!name || !email || !password) {
             setError('All fields are required');
-            alert(error);
+            toast.error('All fields are required');
             return;
         }
 
         if (!email.includes("@") || !email.includes(".")) {
             setError("Enter valid email");
-            alert(error);
+            toast.error("Enter valid email");
             return;
         }
 
         if (password.length < 6) {
             setError("Password must be at least 6 characters");
-            alert(error);
+            toast.error("Password must be at least 6 characters");
             return;
         }
 
@@ -54,14 +55,14 @@ function SignUpPage() {
             const data = await res.json();
 
             if (!data.success) {
-                alert(data.message);
+                toast.error(data.message);
                 setSignUp(false);
                 setLogin(true);
             } else {
-                alert(data.message);
+                toast.success(data.message);
             }
         } catch (error) {
-            alert('Server error');
+            toast.error('Server error');
             console.log(error)
         }
     }

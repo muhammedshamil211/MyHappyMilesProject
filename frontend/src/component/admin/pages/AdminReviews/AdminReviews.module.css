@@ -1,0 +1,162 @@
+.main {
+    padding: 2rem;
+    font-family: 'Poppins', sans-serif;
+    color: #333;
+}
+
+.topSection {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.topSection h1 {
+    margin: 0;
+    font-size: 1.8rem;
+    color: #1e1e2d;
+}
+
+.filters {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.filterBtn {
+    padding: 0.5rem 1rem;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    background: white;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.2s;
+}
+
+.filterBtn:hover {
+    background: #f3f4f6;
+}
+
+.activeFilter {
+    background: #ff5100;
+    color: white;
+    border-color: #ff5100;
+}
+
+.activeFilter:hover {
+    background: #e64a00;
+}
+
+.tableWrap {
+    overflow-x: auto;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    border: 1px solid #e5e7eb;
+}
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 800px;
+}
+
+.table th, .table td {
+    padding: 1rem;
+    text-align: left;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.table th {
+    background-color: #f8fafc;
+    font-weight: 600;
+    color: #475569;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    letter-spacing: 0.05em;
+}
+
+.truncateComment {
+    margin: 0;
+    max-width: 250px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: #374151;
+}
+
+.statusBadge {
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: capitalize;
+}
+
+.active { background: #dcfce7; color: #166534; }
+.hidden { background: #f1f5f9; color: #475569; }
+.reported { background: #fee2e2; color: #b91c1c; }
+
+.actionButtons {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+}
+
+.actionButtons button {
+    padding: 4px 10px;
+    border: none;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+.actionButtons button:hover {
+    transform: translateY(-1px);
+}
+
+.btnApprove { background: #10b981; color: white; }
+.btnApprove:hover { background: #059669; }
+
+.btnReport { background: #f59e0b; color: white; }
+.btnReport:hover { background: #d97706; }
+
+.btnHide { background: #64748b; color: white; }
+.btnHide:hover { background: #475569; }
+
+.btnDelete { background: #ef4444; color: white; }
+.btnDelete:hover { background: #dc2626; }
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 2rem;
+}
+
+.pageBtn {
+    padding: 0.5rem 1rem;
+    border: 1px solid #d1d5db;
+    background: white;
+    border-radius: 6px;
+    cursor: pointer;
+}
+.pageBtn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+@media screen and (max-width: 768px) {
+    .main {
+        padding: 1rem;
+    }
+    .topSection {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+    .filters {
+        flex-wrap: wrap;
+    }
+}

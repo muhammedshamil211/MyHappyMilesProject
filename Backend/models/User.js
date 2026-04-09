@@ -10,6 +10,7 @@ const userSchema = new mongoose.Schema({
         required: true,
         unique: true,
         lowercase: true,
+        index: true,
         match: [
             /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/,
             "Please enter valid email"
@@ -22,7 +23,17 @@ const userSchema = new mongoose.Schema({
     },
     role: {
         type: String,
+        enum: ['user', 'admin'],
         default: "user"
+    },
+    status: {
+        type: String,
+        enum: ['active', 'blocked'],
+        default: 'active'
+    },
+    lastLogin: {
+        type: Date,
+        default: null
     },
     updateCount: {
         type: Number,
@@ -36,7 +47,7 @@ const userSchema = new mongoose.Schema({
         type: Date,
         default: null
     }
-});
+}, { timestamps: true });
 
 const userModel = mongoose.model("User", userSchema);
 export default userModel;

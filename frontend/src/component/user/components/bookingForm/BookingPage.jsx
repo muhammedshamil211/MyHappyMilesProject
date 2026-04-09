@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import toast from 'react-hot-toast';
 import Button from '../ui/button/Button'
 import Popup from '../../layout/Popup/Popup';
 import FormDiv from '../../layout/form/FormDiv'
@@ -33,14 +34,14 @@ export default function BookingPage({ packages, placeName, closeForm }) {
             const data = await res.json();
 
             if (data.success) {
-                alert(data.message);
+                toast.success(data.message);
                 closeForm();
             } else {
-                alert(data.message);
+                toast.error(data.message);
             }
         } catch (err) {
             console.log(err);
-            alert("Booking failed")
+            toast.error("Booking failed")
         }
     }
 

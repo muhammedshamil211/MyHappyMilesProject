@@ -4,6 +4,8 @@ import Nav from '../component/user/layout/Nav/Nav';
 import Footer from '../component/user/layout/footer/Footer';
 import { LoginContext } from '../context/LoginContext';
 import style from './PackageDetailsPage.module.css';
+import ReviewSection from '../component/user/components/reviews/ReviewSection';
+import StarRating from '../component/user/components/reviews/StarRating';
 
 export default function PackageDetailsPage() {
     const { id } = useParams();
@@ -159,6 +161,10 @@ export default function PackageDetailsPage() {
                         <p className={style.heroTitle}>
                             {pkg.title} <span className={style.heroPackages}>Package</span>
                         </p>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px', color: 'white' }}>
+                            <StarRating rating={pkg.averageRating || 0} readOnly size={18} />
+                            <span style={{ fontSize: '0.95rem' }}>{pkg.averageRating || 0} ({pkg.totalReviews || 0} reviews)</span>
+                        </div>
                         <p className={style.heroSubtitle}>📍 {pkg.placeId?.name || 'Destination'} | ⏱ {pkg.duration}</p>
                     </div>
                 </div>
@@ -254,6 +260,9 @@ export default function PackageDetailsPage() {
                                 </div>
                             </div>
                         )}
+
+                        {/* ── Reviews ── */}
+                        <ReviewSection packageId={id} />
                     </div>
 
                     {/* ── Right Column: Booking & Stats ── */}

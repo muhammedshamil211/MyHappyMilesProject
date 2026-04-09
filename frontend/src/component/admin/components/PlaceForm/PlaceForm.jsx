@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import toast from 'react-hot-toast';
 import Popup from "../../../user/layout/Popup/Popup";
 import style from "./PlaceForm.module.css"
 
@@ -36,6 +37,11 @@ export default function PlaceForm({ place, onClose, onSuccess }) {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
+        if (!formData.name || !formData.image || !formData.coverImage) {
+            toast.error("All fields are required");
+            return;
+        }
+
         try {
             setLoading(true);
 
@@ -59,10 +65,14 @@ export default function PlaceForm({ place, onClose, onSuccess }) {
             const data = await res.json();
 
             if (data.success) {
+                toast.success(`Place ${isEditMode ? 'updated' : 'added'} successfully!`);
                 onSuccess();
+            } else {
+                toast.error(data.message || "Failed to save place");
             }
 
         } catch (err) {
+            toast.error("Server error. Please try again.");
             console.log(err);
         } finally {
             setLoading(false);

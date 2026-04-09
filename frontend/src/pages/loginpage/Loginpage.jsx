@@ -1,5 +1,5 @@
-
 import { useContext, useState } from 'react';
+import toast from 'react-hot-toast';   
 import Button from '../../component/user/components/ui/button/Button'
 import Popup from '../../component/user/layout/Popup/Popup';
 import CloseButton from '../../component/user/components/ui/closeButton/CloseButton';
@@ -9,8 +9,6 @@ import style from './Loginpage.module.css'
 
 import { LoginContext } from '../../context/LoginContext';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
-import Toast from '../../component/user/components/toast/Toast';
-
 function Loginpage() {
 
     const navigate = useNavigate();
@@ -18,9 +16,6 @@ function Loginpage() {
     const { login, setLogin, setUser, setSignUp } = useContext(LoginContext);
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [message, setMessage] = useState('');
-    const [type, setType] = useState('success');
-    const [toast, setToast] = useState(false);
 
 
 
@@ -29,16 +24,12 @@ function Loginpage() {
     const validation = async () => {
 
         if (!email || !password) {
-            setMessage('All fields required');
-            setType('error');
-            setToast(true);
+            toast.error('All fields required');
             return;
         }
 
         if (!email.includes("@") || !email.includes(".")) {
-            setMessage("Enter valid email");
-            setType("error");
-            setToast(true);
+            toast.error("Enter valid email");
             return;
         }
 
@@ -61,9 +52,7 @@ function Loginpage() {
 
                 localStorage.setItem("user", JSON.stringify(data.data.user));
                 setUser(data.data.user);
-                setMessage(data.message || "Login successful");
-                setType('success');
-                setToast(true);
+                toast.success(data.message || "Login successful");
                 setLogin(false);
 
 
@@ -78,15 +67,11 @@ function Loginpage() {
                 }, 300);
 
             } else {
-                setMessage(data.message || "Login failed!");
-                setType('error');
-                setToast(true);
+                toast.error(data.message || "Login failed!");
             }
 
         } catch (error) {
-            setMessage("Server error");
-            setType('error');
-            setToast(true);
+            toast.error("Server error");
             console.log(error);
         }
     }
@@ -121,14 +106,6 @@ function Loginpage() {
                 </FormDiv>
             </Popup>
         )}
-
-            {toast && (
-                <Toast
-                    message={message}
-                    type={type}
-                    onClose={() => setToast(false)}
-                />
-            )}
         </>
     )
 }

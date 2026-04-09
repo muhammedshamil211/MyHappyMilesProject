@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
+import toast from 'react-hot-toast';
 import { AdminPlaceContext } from '../../context/AdminPlaceContext'
 import style from './AdminPlace.module.css'
 import AdminPlaceCard from '../../components/PlaceCard/AdminPlaceCard'
@@ -49,11 +50,15 @@ export default function AdminPlace() {
             );
             const data = await res.json();
             if (data.success) {
+                toast.success("Place deleted successfully");
                 handlePlace(currentPage);
                 setDeletePlace(null);
+            } else {
+                toast.error(data.message || "Failed to delete place");
             }
 
         } catch (err) {
+            toast.error("Error deleting place");
             console.log(err);
         }
     };

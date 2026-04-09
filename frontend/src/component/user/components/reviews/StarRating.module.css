@@ -1,0 +1,29 @@
+.starContainer {
+    display: inline-flex;
+    gap: 2px;
+}
+
+.star {
+    transition: all 0.2s;
+    line-height: 1;
+}
+
+.filled {
+    color: #f59e0b; /* Amber */
+}
+
+.empty {
+    color: #e5e7eb; /* Gray */
+}
+
+.interactive {
+    cursor: pointer;
+}
+
+.interactive:hover {
+    transform: scale(1.15);
+}
+
+.readOnly {
+    cursor: default;
+}

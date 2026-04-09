@@ -1,4 +1,5 @@
 import React, { useContext, useState, useEffect, useCallback } from 'react'
+import toast from 'react-hot-toast';
 import { useParams } from 'react-router-dom'
 import { AdminPlaceContext } from '../../context/AdminPlaceContext';
 import style from './AdminPlacePackages.module.css'
@@ -80,15 +81,19 @@ export default function AdminPlacePackages() {
       const data = await res.json();
 
       if (data.success) {
+        toast.success("Package deleted successfully");
         // If we delete the last item on a page, jump back one page
         const targetPage = packages.length === 1 && currentPage > 1
           ? currentPage - 1
           : currentPage;
         handlePackages(targetPage);
         setDeletePackId(null);
+      } else {
+        toast.error(data.message || "Failed to delete package");
       }
 
     } catch (error) {
+      toast.error("Error deleting package");
       console.log(error);
     }
   }

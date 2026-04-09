@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import toast from 'react-hot-toast';
 import { useParams, useNavigate } from 'react-router-dom';
 import style from './AdminPackageDetails.module.css';
 
@@ -8,7 +9,6 @@ export default function AdminPackageDetails() {
 
     const [loading, setLoading] = useState(true);
     const [saving, setSaving] = useState(false);
-    const [message, setMessage] = useState('');
 
     const [form, setForm] = useState({
         title: '',
@@ -100,8 +100,24 @@ export default function AdminPackageDetails() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        // Perform validations
+        if (!form.title || !form.price || !form.maxPeople) {
+            toast.error("Title, Price, and Max People are required");
+            return;
+        }
+
+        if (isNaN(form.price) || form.price <= 0) {
+            toast.error("Enter a valid price");
+            return;
+        }
+
+        if (isNaN(form.maxPeople) || form.maxPeople <= 0) {
+            toast.error("Enter a valid maximum people count");
+            return;
+        }
+
         setSaving(true);
-        setMessage('');
 
         try {
             const token = localStorage.getItem('token');
@@ -125,9 +141,14 @@ export default function AdminPackageDetails() {
             });
 
             const data = await res.json();
-            setMessage(data.success ? '✓ Saved successfully!' : (data.message || 'Save failed'));
+            
+            if (data.success) {
+                toast.success('Package details saved successfully!');
+            } else {
+                toast.error(data.message || 'Save failed');
+            }
         } catch (err) {
-            setMessage('Server error. Try again.');
+            toast.error('Server error. Try again.');
         } finally {
             setSaving(false);
         }
@@ -270,7 +291,6 @@ export default function AdminPackageDetails() {
 
                 {/* ── Submit ── */}
                 <div className={style.submitRow}>
-                    {message && <span className={style.message}>{message}</span>}
                     <button type="submit" className={style.saveBtn} disabled={saving}>
                         {saving ? 'Saving...' : 'Save Details'}
                     </button>

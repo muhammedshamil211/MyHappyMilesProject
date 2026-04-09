@@ -4,7 +4,8 @@ const bookingSchema = new mongoose.Schema({
     userId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "User",
-        required: true
+        required: true,
+        index: true
     },
     packageId: {
         type: mongoose.Schema.Types.ObjectId,
@@ -17,12 +18,10 @@ const bookingSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    // people replaces the old `count` field
     people: {
         type: Number,
         default: 1
     },
-    // Legacy alias
     count: {
         type: Number
     },
@@ -34,6 +33,17 @@ const bookingSchema = new mongoose.Schema({
     totalAmount: {
         type: Number,
         default: 0
+    },
+    status: {
+        type: String,
+        enum: ['pending', 'confirmed', 'cancelled'],
+        default: 'pending',
+        index: true
+    },
+    paymentStatus: {
+        type: String,
+        enum: ['unpaid', 'paid'],
+        default: 'unpaid'
     }
 }, { timestamps: true });
 

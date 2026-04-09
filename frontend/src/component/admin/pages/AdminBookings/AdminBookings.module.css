@@ -1,0 +1,149 @@
+.main {
+    padding: 20px;
+    background-color: #f7f9fc;
+    min-height: 100vh;
+}
+
+.headSection {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.head {
+    font-size: 26px;
+    font-weight: bold;
+}
+
+.tableWrapper {
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    overflow-x: auto;
+}
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.table th, .table td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid #eee;
+}
+
+.table th {
+    background-color: #f8f9fa;
+    font-weight: 600;
+    color: #444;
+}
+
+.statusBadge {
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: bold;
+    text-transform: capitalize;
+}
+
+.status-pending {
+    background-color: #fff3cd;
+    color: #856404;
+}
+
+.status-confirmed {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.status-cancelled {
+    background-color: #f8d7da;
+    color: #721c24;
+}
+
+.actionSelect {
+    padding: 6px 10px;
+    border: 1.5px solid #d1d5db;
+    border-radius: 6px;
+    background: white;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 500;
+    color: #374151;
+    transition: all 0.2s ease;
+    outline: none;
+}
+.actionSelect:focus {
+    border-color: #00aaff;
+}
+.actionSelect:disabled {
+    background-color: #f3f4f6;
+    cursor: not-allowed;
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 24px;
+}
+
+.btn {
+    padding: 8px 16px;
+    background-color: #1e1e2d;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.2s;
+}
+
+.btn:hover:not(:disabled) {
+    background-color: #2b2b3d;
+    transform: translateY(-1px);
+}
+
+.btn:disabled {
+    background-color: #e5e7eb;
+    color: #9ca3af;
+    cursor: not-allowed;
+}
+
+.emptyState {
+    text-align: center;
+    padding: 30px;
+    color: #888;
+}
+
+@media screen and (max-width:480px) {
+    .main {
+        padding: 1px;
+    }
+    .headSection {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .filters {
+        flex-direction: column;
+    }
+    .table th, .table td {
+        padding: 8px 10px;
+        font-size: 12px;
+    }
+    .actionSelect {
+        padding: 4px 8px;
+        font-size: 11px;
+    }
+    .pagination {
+        gap: 10px;
+        margin-top: 20px;
+    }
+    .btn {
+        padding: 6px 12px;
+        font-size: 12px;
+    }
+}

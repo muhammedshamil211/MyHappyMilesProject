@@ -120,22 +120,25 @@
     background: #fee2e2;
     color: #dc2626;
     border: none;
-    width: 30px;
-    height: 30px;
+    width: 32px;
+    height: 32px;
     border-radius: 6px;
     cursor: pointer;
     font-size: 0.85rem;
     font-weight: 700;
-    transition: background 0.2s;
+    transition: all 0.2s;
 }
-.removeBtn:hover { background: #fca5a5; }
+.removeBtn:hover { 
+    background: #fca5a5;
+    transform: translateY(-1px);
+}
 
 .addBtn {
     align-self: flex-start;
     background: none;
-    border: 1.5px dashed #7c3aed;
-    color: #7c3aed;
-    padding: 0.4rem 0.9rem;
+    border: 1.5px dashed #00aaff;
+    color: #00aaff;
+    padding: 0.5rem 1rem;
     border-radius: 6px;
     cursor: pointer;
     font-size: 0.88rem;
@@ -143,7 +146,10 @@
     transition: all 0.2s;
     margin-top: 0.25rem;
 }
-.addBtn:hover { background: #f5f3ff; }
+.addBtn:hover { 
+    background: #f0f8ff;
+    transform: translateY(-1px);
+}
 
 /* Itinerary day card */
 .dayCard {
@@ -197,15 +203,19 @@
 }
 
 .saveBtn {
-    background: #7c3aed;
+    background: #006699;
     color: #fff;
     border: none;
-    padding: 0.7rem 2rem;
+    padding: 10px 24px;
     border-radius: 8px;
     font-size: 1rem;
-    font-weight: 700;
+    font-weight: 600;
     cursor: pointer;
-    transition: background 0.2s;
+    transition: all 0.2s ease;
 }
-.saveBtn:hover { background: #6d28d9; }
+.saveBtn:hover { 
+    background: #005580;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0, 102, 153, 0.2); 
+}
 .saveBtn:disabled { background: #c4b5fd; cursor: not-allowed; }

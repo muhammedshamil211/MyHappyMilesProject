@@ -1,6 +1,7 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom';
 import style from './AdminPackageCard.module.css'
+import StarRating from '../../../user/components/reviews/StarRating';
 
 export default function AdminPackageCard({ pack, onEdit, onDelete }) {
 
@@ -19,6 +20,13 @@ export default function AdminPackageCard({ pack, onEdit, onDelete }) {
                 <div className={style.detailsDiv}>
                     <h4>Name</h4>
                     <p>: {pack.title}</p>
+                </div>
+                <div className={style.detailsDiv}>
+                    <h4 style={{ color: '#888' }}>Rating</h4>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                        : <StarRating rating={pack.averageRating || 0} readOnly size={14} /> 
+                        <span style={{ fontSize: '0.8rem', color: '#888' }}>({pack.totalReviews || 0})</span>
+                    </div>
                 </div>
                 <div className={style.detailsDiv}>
                     <h4>Description</h4>

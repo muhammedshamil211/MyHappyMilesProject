@@ -70,6 +70,16 @@ const packageSchema = new mongoose.Schema({
     views: {
         type: Number,
         default: 0
+    },
+
+    // Review System Tracking
+    averageRating: {
+        type: Number,
+        default: 0
+    },
+    totalReviews: {
+        type: Number,
+        default: 0
     }
 }, { timestamps: true });
 

@@ -22,3 +22,26 @@ export const getBookings = async (req, res) => {
     const { status, payload } = await bookingService.getUserBookings(req.user.id);
     res.status(status).json(payload);
 };
+
+export const cancelBooking = async (req, res) => {
+    const { id } = req.params;
+    const { status, payload } = await bookingService.cancelBookingService(id, req.user.id);
+    res.status(status).json(payload);
+};
+
+export const getAdminBookings = async (req, res) => {
+    const { page = 1, limit = 10 } = req.query;
+    const { status, payload } = await bookingService.getAllBookingsAdmin(Number(page), Number(limit));
+    res.status(status).json(payload);
+};
+
+export const updateAdminBookingStatus = async (req, res) => {
+    const { id } = req.params;
+    const { bookingStatus, paymentStatus } = req.body; // Map from frontend state
+    
+    // In our model it's "status".
+    const mappedStatus = bookingStatus || req.body.status;
+    
+    const { status, payload } = await bookingService.updateBookingStatusAdmin(id, mappedStatus, paymentStatus);
+    res.status(status).json(payload);
+};

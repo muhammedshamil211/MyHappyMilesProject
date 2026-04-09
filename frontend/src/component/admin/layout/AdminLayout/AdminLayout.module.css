@@ -1,19 +1,64 @@
-.sidebar {
+.layoutContainer {
     display: flex;
     height: 100vh;
+    font-family: 'Poppins', sans-serif;
+    overflow: hidden;
+}
+
+.sidebarWrapper {
+    height: 100vh;
+    flex-shrink: 0;
+    transition: transform 0.3s ease-in-out;
+    z-index: 100;
 }
 
 .content {
     display: flex;
     flex-direction: column;
     flex: 1;
+    height: 100vh;
+    overflow: hidden; /* Outlet handles inner scroll */
+    background-color: #f7f9fc;
 }
 
 .outlet {
     padding: 24px;
     flex: 1;
-    overflow: auto;
-    background-image: url("https://img.freepik.com/free-vector/abstract-smooth-wavy-line-white-background-design_1017-45445.jpg");
-    background-repeat: no-repeat;
-    background-size: cover;
+    overflow-y: auto;
+    overflow-x: hidden;
+    /* Removed custom background pattern to match premium clean UI standards */
+    background-color: #f7f9fc;
+}
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 90;
+    display: none;
+}
+
+/* Responsive CSS */
+@media screen and (max-width: 900px) {
+    .sidebarWrapper {
+        position: fixed;
+        top: 0;
+        left: 0;
+        transform: translateX(-100%);
+    }
+
+    .sidebarWrapper.open {
+        transform: translateX(0);
+    }
+
+    .overlay {
+        display: block;
+    }
+
+    .outlet {
+        padding: 16px;
+    }
 }

@@ -1,0 +1,190 @@
+.pageWrapper {
+    font-family: 'Poppins', sans-serif;
+    background-color: #f7f9fc;
+    min-height: 100vh;
+}
+
+/* ── Banner ── */
+.banner {
+    position: relative;
+    color: white;
+    text-align: center;
+    border-radius: 0 0 2.5rem 2.5rem;
+    margin-bottom: 25px;
+    min-height: 300px;
+    background-size: cover;
+    background-position: center;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.bannerOverlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.3));
+    display: flex;
+    flex-direction: column;
+    z-index: 1;
+}
+
+.bannerContent {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem 1rem;
+    z-index: 2;
+}
+
+.bannerTitle {
+    font-size: clamp(2rem, 5.5vw, 3.2rem);
+    font-weight: 800;
+    margin-bottom: 0.8rem;
+    text-shadow: 2px 2px 15px rgba(0,0,0,0.4);
+    letter-spacing: -0.5px;
+}
+
+.container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+.title {
+    font-size: 2.2rem;
+    font-weight: 700;
+    margin-bottom: 2rem;
+    color: #333;
+}
+
+.grid {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.orderCard {
+    background: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: transform 0.2s;
+}
+
+.orderCard:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.08);
+}
+
+.details {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.packageTitle {
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: #333;
+    margin: 0;
+    cursor: pointer;
+    text-decoration: underline transparent;
+    transition: all 0.3s ease;
+}
+
+.packageTitle:hover {
+    color: #ff5100;
+    text-decoration: underline;
+    text-underline-offset: 4px;
+}
+
+.subText {
+    font-size: 0.95rem;
+    color: #666;
+    margin: 0;
+}
+
+.statusSection {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 1rem;
+}
+
+.badge {
+    padding: 0.4rem 1rem;
+    border-radius: 2rem;
+    font-weight: 600;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    text-align: center;
+}
+
+.pending {
+    background: #fff3cd;
+    color: #856404;
+}
+
+.confirmed {
+    background: #d4edda;
+    color: #155724;
+}
+
+.cancelled {
+    background: #f8d7da;
+    color: #721c24;
+}
+
+.cancelBtn {
+    padding: 0.6rem 1.2rem;
+    background: #dc3545;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background 0.2s;
+    width: 100%;
+}
+
+.cancelBtn:hover {
+    background: #c82333;
+}
+
+.noOrders {
+    text-align: center;
+    color: #777;
+    font-size: 1.1rem;
+    padding: 3rem 0;
+}
+
+/* ── Responsive ── */
+@media screen and (max-width: 768px) {
+    .container {
+        padding: 1.5rem;
+    }
+    .orderCard {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1.2rem;
+    }
+    .statusSection {
+        align-items: flex-start;
+        width: 100%;
+    }
+    .packageTitle {
+        font-size: 1.25rem;
+    }
+    .badge {
+        font-size: 0.75rem;
+    }
+}
+

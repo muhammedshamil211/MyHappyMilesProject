@@ -13,10 +13,18 @@ export const loginUser = async (email, password) => {
             return { status: 200, payload: { success: false, data: {}, message: "Account deleted. Contact support" } };
         }
 
+        if (user.status === 'blocked') {
+            return { status: 403, payload: { success: false, data: {}, message: "Account is blocked. Contact administrator." } };
+        }
+
         const isMatch = await bcrypt.compare(password, user.password);
         if (!isMatch) {
             return { status: 404, payload: { success: false, data: {}, message: "Incorrect password" } };
         }
+
+        // Update lastLogin timestamp natively
+        user.lastLogin = new Date();
+        await user.save();
 
         const token = jwt.sign(
             { id: user._id, role: user.role, name: user.name, email: user.email },

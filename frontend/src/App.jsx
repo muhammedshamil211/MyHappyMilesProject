@@ -1,4 +1,4 @@
-import Homepage from './pages/homepage'
+import Homepage from './pages/Homepage'
 import { PlacePage } from './pages/PlacePage'
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { PlaceProvider } from './component/user/context/PlaceContext';

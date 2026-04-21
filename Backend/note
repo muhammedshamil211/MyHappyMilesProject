@@ -9,4 +9,6 @@
         // }
 
 
-MONGO_URI=mongodb+srv://shamil999211:shamil1122@cluster0.c5otmm4.mongodb.net/HappyMiles?retryWrites=true&w=majority
+MONGO_URI=mongodb+srv://shamil999211:shamilTsy123@cluster0.c5otmm4.mongodb.net/HappyMiles?retryWrites=true&w=majority
+
+MONGO_URI=mongodb://localhost:27017/HappyMiles

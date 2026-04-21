@@ -15,7 +15,7 @@ function Homepage() {
     const packages = placeList[random];
     console.log(packages);
     return (
-        <div className='m-2 md:m-4 lg:m-'>
+        <div className='m-1 md:m-4 lg:m-6'>
             <Landing />
             <Place />
             {/* <Package place={packages} /> */}

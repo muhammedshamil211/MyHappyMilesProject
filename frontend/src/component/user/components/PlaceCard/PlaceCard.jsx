@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import styles from './placecard.module.css';
+import styles from './PlaceCard.module.css';
 
 function PlaceCard({ image, name }) {
     const navigate = useNavigate();

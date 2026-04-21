@@ -1,6 +1,6 @@
 import React from 'react';
 import Skeleton from '../../../shared/Skeleton/Skeleton';
-import styles from '../PlaceCard/placeCard.module.css';
+import styles from './PlaceCard.module.css';
 
 const PlaceCardSkeleton = () => {
   return (

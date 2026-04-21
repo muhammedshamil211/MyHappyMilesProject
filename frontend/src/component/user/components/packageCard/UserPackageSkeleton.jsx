@@ -1,6 +1,6 @@
 import React from 'react';
 import Skeleton from '../../../shared/Skeleton/Skeleton';
-import styles from '../PackageCard/package.module.css';
+import styles from './PackageCard.module.css';
 
 const UserPackageSkeleton = () => {
   return (

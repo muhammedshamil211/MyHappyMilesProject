@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import PlaceCard from '../PlaceCard/PlaceCard';
 import PlaceCardSkeleton from '../PlaceCard/PlaceCardSkeleton';
 import { PlaceContext } from '../../context/PlaceContext';
-import styles from './place.module.css';
+import styles from './Place.module.css';
 
 function Place() {
 

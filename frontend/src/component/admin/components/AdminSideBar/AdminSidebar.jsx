@@ -1,5 +1,5 @@
 import { NavLink } from "react-router-dom";
-import style from './AdminSideBar.module.css'
+import style from './AdminSidebar.module.css'
 
 export default function AdminSidebar({ closeSidebar }) {
   return (

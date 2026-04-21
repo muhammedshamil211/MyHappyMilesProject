@@ -95,10 +95,11 @@
         top: auto !important;
         width: 100% !important;
         max-width: 100% !important;
-        border-radius: 16px 16px 0 0;
-        max-height: 70vh;
-        animation: slideUp 0.22s ease;
-        padding: 1.25rem 1rem;
+        border-radius: 1.5rem 1.5rem 0 0;
+        max-height: 80vh;
+        animation: slideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        padding: 1.5rem 1rem;
+        box-shadow: 0 -10px 40px rgba(0,0,0,0.2);
     }
     @keyframes slideUp {
         from { transform: translateY(100%); }

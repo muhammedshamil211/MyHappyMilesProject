@@ -6,5 +6,10 @@
     justify-content: center;
     align-items: center;
     z-index: 50;
+}
 
+@media screen and (max-width: 480px) {
+    .popup {
+        align-items: flex-end;
+    }
 }

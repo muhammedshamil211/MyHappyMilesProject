@@ -1,10 +1,12 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useContext } from 'react'
+import { LoginContext } from '../../../../context/LoginContext';
 import style from './Profile.module.css'
 import CloseButton from '../ui/closeButton/CloseButton';
 import Toast from '../toast/Toast';
 import { useNavigate } from 'react-router-dom';
 
 function Profile({ user, setUser, profileOpen, setProfileOpen }) {
+    const { logout } = useContext(LoginContext);
     const navigate = useNavigate();
 
     const [tempName, setTempName] = useState(user?.name || "");
@@ -69,28 +71,6 @@ function Profile({ user, setUser, profileOpen, setProfileOpen }) {
         window.dispatchEvent(new Event('wishlistUpdated'));
     };
 
-    const handleLogout = async () => {
-        try {
-            // IMPORTANT: credentials:include sends the HttpOnly refreshToken cookie
-            // to the server so it can be invalidated in the DB and cleared from the browser.
-            const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/v1/auth/logout`, {
-                method: "POST",
-                credentials: "include"
-            });
-
-            const data = await res.json();
-            console.log("Logout response:", data); // Debug — confirm server received cookie
-        } catch (err) {
-            console.error("Logout server call failed:", err);
-        } finally {
-            // Always clear local state regardless of server response
-            localStorage.removeItem("user");
-            localStorage.removeItem("token");
-            setUser(null);
-            setProfileOpen(false);
-            navigate('/'); // Redirect to home so user can't stay on protected pages
-        }
-    };
 
     const updateName = async () => {
         if (!tempName.trim()) {
@@ -258,8 +238,10 @@ function Profile({ user, setUser, profileOpen, setProfileOpen }) {
 
                         <button
                             className={`${style.button} ${style.redBtn}`}
-                            onClick={() => {
-                                handleLogout();
+                            onClick={async () => {
+                                await logout();
+                                setProfileOpen(false);
+                                navigate('/');
                                 setMessage("logout successfully");
                                 setType("info");
                                 setToast(true);

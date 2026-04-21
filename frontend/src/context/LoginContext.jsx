@@ -52,8 +52,23 @@ export const LoginProvider = ({ children }) => {
         }
     }, [user]);
 
+    const logout = async () => {
+        try {
+            await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/v1/auth/logout`, {
+                method: "POST",
+                credentials: "include"
+            });
+        } catch (err) {
+            console.error("Logout server call failed:", err);
+        } finally {
+            localStorage.removeItem("user");
+            localStorage.removeItem("token");
+            setUser(null);
+        }
+    };
+
     return (
-        <LoginContext.Provider value={{ login, setLogin, user, setUser, signUp, setSignUp, initializing }}>
+        <LoginContext.Provider value={{ login, setLogin, user, setUser, signUp, setSignUp, initializing, logout }}>
             {children}
         </LoginContext.Provider>
     );

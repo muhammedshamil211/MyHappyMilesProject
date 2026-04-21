@@ -187,68 +187,70 @@ export default function AdminUsers() {
                     />
                 </div>
 
-                        <table className={styles.table}>
-                            <thead>
+                <div className={styles.tableContainer}>
+                    <table className={styles.table}>
+                        <thead>
+                            <tr>
+                                <th>User Info</th>
+                                <th>Status</th>
+                                <th>Role</th>
+                                <th>Analytics (Spent/Bkgs)</th>
+                                <th>Last Booking</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {loading ? (
+                                <TableSkeleton rows={8} cols={6} />
+                            ) : users.length === 0 ? (
                                 <tr>
-                                    <th>User Info</th>
-                                    <th>Status</th>
-                                    <th>Role</th>
-                                    <th>Analytics (Spent/Bkgs)</th>
-                                    <th>Last Booking</th>
-                                    <th>Actions</th>
+                                    <td colSpan="6" style={{ textAlign: 'center', padding: '2rem' }}>
+                                        No users found.
+                                    </td>
                                 </tr>
-                            </thead>
-                            <tbody>
-                                {loading ? (
-                                    <TableSkeleton rows={8} cols={6} />
-                                ) : users.length === 0 ? (
-                                    <tr>
-                                        <td colSpan="6" style={{ textAlign: 'center', padding: '2rem' }}>
-                                            No users found.
+                            ) : (
+                                users.map(user => (
+                                    <tr key={user._id}>
+                                        <td>
+                                            <strong>{user.name}</strong><br/>
+                                            <small>{user.email}</small>
+                                        </td>
+                                        <td>
+                                            <span className={`${styles.badge} ${styles['badge-' + user.status]}`}>
+                                                {user.status || 'active'}
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span className={`${styles.badge} ${styles['badge-' + user.role]}`}>
+                                                {user.role}
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span style={{ color: '#ff5100', fontWeight: 'bold' }}>₹{user.totalSpent?.toLocaleString() || 0}</span><br/>
+                                            <small>{user.totalBookings || 0} Bookings</small>
+                                        </td>
+                                        <td>
+                                            {user.lastBookingDate ? new Date(user.lastBookingDate).toLocaleDateString() : 'N/A'}
+                                        </td>
+                                        <td>
+                                            {user.status === 'blocked' ? (
+                                                <button className={styles.actionBtn} onClick={() => handleStatusChange(user._id, 'active')}>Unblock</button>
+                                            ) : (
+                                                <button className={styles.actionBtn} onClick={() => handleStatusChange(user._id, 'blocked')}>Block</button>
+                                            )}
+                                            
+                                            {user.role === 'admin' ? (
+                                                <button className={styles.actionBtn} onClick={() => handleRoleChange(user._id, 'user')}>Demote (User)</button>
+                                            ) : (
+                                                <button className={styles.actionBtn} onClick={() => handleRoleChange(user._id, 'admin')}>Promote (Admin)</button>
+                                            )}
                                         </td>
                                     </tr>
-                                ) : (
-                                    users.map(user => (
-                                        <tr key={user._id}>
-                                            <td>
-                                                <strong>{user.name}</strong><br/>
-                                                <small>{user.email}</small>
-                                            </td>
-                                            <td>
-                                                <span className={`${styles.badge} ${styles['badge-' + user.status]}`}>
-                                                    {user.status || 'active'}
-                                                </span>
-                                            </td>
-                                            <td>
-                                                <span className={`${styles.badge} ${styles['badge-' + user.role]}`}>
-                                                    {user.role}
-                                                </span>
-                                            </td>
-                                            <td>
-                                                <span style={{ color: '#ff5100', fontWeight: 'bold' }}>₹{user.totalSpent?.toLocaleString() || 0}</span><br/>
-                                                <small>{user.totalBookings || 0} Bookings</small>
-                                            </td>
-                                            <td>
-                                                {user.lastBookingDate ? new Date(user.lastBookingDate).toLocaleDateString() : 'N/A'}
-                                            </td>
-                                            <td>
-                                                {user.status === 'blocked' ? (
-                                                    <button className={styles.actionBtn} onClick={() => handleStatusChange(user._id, 'active')}>Unblock</button>
-                                                ) : (
-                                                    <button className={styles.actionBtn} onClick={() => handleStatusChange(user._id, 'blocked')}>Block</button>
-                                                )}
-                                                
-                                                {user.role === 'admin' ? (
-                                                    <button className={styles.actionBtn} onClick={() => handleRoleChange(user._id, 'user')}>Demote (User)</button>
-                                                ) : (
-                                                    <button className={styles.actionBtn} onClick={() => handleRoleChange(user._id, 'admin')}>Promote (Admin)</button>
-                                                )}
-                                            </td>
-                                        </tr>
-                                    ))
-                                )}
-                            </tbody>
-                        </table>
+                                ))
+                            )}
+                        </tbody>
+                    </table>
+                </div>
                         
                         <div className={styles.pagination}>
                             <button 

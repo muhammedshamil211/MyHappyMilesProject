@@ -21,7 +21,14 @@ const app = express();
 dotenv.config();
 connectDB();
 
-
+// Diagnostic Middleware: Log origin to debug CORS
+app.use((req, res, next) => {
+    const origin = req.headers.origin;
+    if (origin) {
+        console.log(`Incoming request from origin: ${origin}`);
+    }
+    next();
+});
 
 // Cross-origin & Cookies
 // Must explicitly whitelist the frontend origin — `origin: true` is unreliable
@@ -35,27 +42,25 @@ const allowedOrigins = [
 
 app.use(cors({
     origin: (origin, callback) => {
-        // Allow requests with no origin (mobile apps, Postman, server-to-server)
-        if (!origin || allowedOrigins.includes(origin)) {
+        // Allow requests with no origin (mobile apps, Postman)
+        if (!origin) return callback(null, true);
+        
+        if (allowedOrigins.includes(origin) || origin.endsWith('.vercel.app')) {
             callback(null, true);
         } else {
+            console.error(`Blocked by CORS: ${origin}`);
             callback(new Error('Not allowed by CORS'));
         }
     },
-    credentials: true // Required: allows browser to send/receive cookies
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
+    allowedHeaders: ['Content-Type', 'Authorization', 'Cookie']
 }));
-app.options('*', cors({
-    origin: (origin, callback) => {
-        if (!origin || allowedOrigins.includes(origin)) {
-            callback(null, true);
-        } else {
-            callback(new Error('Not allowed by CORS'));
-        }
-    },
-    credentials: true
+
+// Security Hardening Headers - Configured to allow Cross-Origin
+app.use(helmet({
+    crossOriginResourcePolicy: { policy: "cross-origin" }
 }));
-// Security Hardening Headers
-app.use(helmet());
 app.use(express.json());
 app.use(cookieParser());
 
@@ -87,8 +92,26 @@ app.get("/", (req, res) => {
 
 
 
-const PORT = 5000;
+const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {
     console.log('Server is running on port: ', PORT);
+});
+
+// Final Catch-all Error Handler (Must be last)
+app.use((err, req, res, next) => {
+    console.error('Unhandled Error:', err);
+    
+    // Ensure CORS headers are present even on errors
+    const origin = req.headers.origin;
+    if (origin && (allowedOrigins.includes(origin) || origin.endsWith('.vercel.app'))) {
+        res.header('Access-Control-Allow-Origin', origin);
+        res.header('Access-Control-Allow-Credentials', 'true');
+    }
+
+    res.status(err.status || 500).json({
+        success: false,
+        message: err.message || "Internal Server Error",
+        error: process.env.NODE_ENV === 'development' ? err.stack : undefined
+    });
 });

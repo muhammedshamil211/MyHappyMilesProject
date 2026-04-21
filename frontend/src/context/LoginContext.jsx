@@ -20,7 +20,7 @@ export const LoginProvider = ({ children }) => {
                     return;
                 }
 
-                const res = await fetch("http://localhost:5000/api/v1/auth/refresh", {
+                const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/v1/auth/refresh`, {
                     method: "POST",
                     credentials: "include"
                 });

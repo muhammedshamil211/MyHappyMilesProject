@@ -44,7 +44,7 @@ function Profile({ user, setUser, profileOpen, setProfileOpen }) {
         setLoadingOrders(true);
         try {
             const token = localStorage.getItem("token");
-            const res = await fetch("http://localhost:5000/api/v1/booking/user", {
+            const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/v1/booking/user`, {
                 headers: {
                     "Authorization": `Bearer ${token}`
                 }
@@ -73,7 +73,7 @@ function Profile({ user, setUser, profileOpen, setProfileOpen }) {
         try {
             // IMPORTANT: credentials:include sends the HttpOnly refreshToken cookie
             // to the server so it can be invalidated in the DB and cleared from the browser.
-            const res = await fetch("http://localhost:5000/api/v1/auth/logout", {
+            const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/v1/auth/logout`, {
                 method: "POST",
                 credentials: "include"
             });
@@ -103,7 +103,7 @@ function Profile({ user, setUser, profileOpen, setProfileOpen }) {
         const token = localStorage.getItem("token");
 
         try {
-            const res = await fetch("http://localhost:5000/api/v1/auth/edit", {
+            const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/v1/auth/edit`, {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json",
@@ -150,7 +150,7 @@ function Profile({ user, setUser, profileOpen, setProfileOpen }) {
         const token = localStorage.getItem("token");
 
         try {
-            const res = await fetch("http://localhost:5000/api/v1/auth/edit", {
+            const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/v1/auth/edit`, {
                 method: "DELETE",
                 headers: {
                     "Content-Type": "application/json",

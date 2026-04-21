@@ -17,7 +17,7 @@ export default function BookingPage({ packages, placeName, closeForm }) {
         try {
             const token = localStorage.getItem("token");
 
-            const res = await fetch("http://localhost:5000/api/v1/booking", {
+            const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/v1/booking`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

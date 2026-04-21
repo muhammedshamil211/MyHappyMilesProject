@@ -45,7 +45,7 @@ function Loginpage() {
 
     const handleGoogleSuccess = async (credentialResponse) => {
         try {
-            const res = await fetch("http://localhost:5000/api/v1/auth/google", {
+            const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/v1/auth/google`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ token: credentialResponse.credential })
@@ -72,7 +72,7 @@ function Loginpage() {
             if (identifier.length < 10) return toast.error("Enter valid mobile number");
             // Request OTP
             try {
-                const res = await fetch("http://localhost:5000/api/v1/auth/otp/send", {
+                const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/v1/auth/otp/send`, {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({ identifier, purpose: 'login' })
@@ -98,7 +98,7 @@ function Loginpage() {
         }
 
         try {
-            const res = await fetch("http://localhost:5000/api/v1/auth/login", {
+            const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/v1/auth/login`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ email: identifier, password: password })

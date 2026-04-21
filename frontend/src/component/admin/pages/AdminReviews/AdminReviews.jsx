@@ -28,7 +28,7 @@ export default function AdminReviews() {
                 ...(sortBy && { sortBy }),
                 ...(rating && { rating })
             });
-            const res = await fetch(`http://localhost:5000/api/v1/admin/reviews?${params}`, {
+            const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/v1/admin/reviews?${params}`, {
                 headers: { Authorization: `Bearer ${token}` }
             });
             const data = await res.json();
@@ -46,7 +46,7 @@ export default function AdminReviews() {
     const updateStatus = async (id, newStatus) => {
         try {
             const token = localStorage.getItem("token");
-            const res = await fetch(`http://localhost:5000/api/v1/admin/reviews/${id}/status`, {
+            const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/v1/admin/reviews/${id}/status`, {
                 method: "PATCH",
                 headers: {
                     'Content-Type': 'application/json',
@@ -71,7 +71,7 @@ export default function AdminReviews() {
 
         try {
             const token = localStorage.getItem("token");
-            const res = await fetch(`http://localhost:5000/api/v1/admin/reviews/${id}`, {
+            const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/v1/admin/reviews/${id}`, {
                 method: "DELETE",
                 headers: { Authorization: `Bearer ${token}` }
             });

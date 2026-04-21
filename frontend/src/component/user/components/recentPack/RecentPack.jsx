@@ -12,8 +12,8 @@ function PackageStats() {
         try {
             setLoading(true);
             const [resRecent, resPopular] = await Promise.all([
-                fetch('http://localhost:5000/api/v1/packages/recent'),
-                fetch('http://localhost:5000/api/v1/packages/popular')
+                fetch(`${import.meta.env.VITE_API_BASE_URL}/api/v1/packages/recent`),
+                fetch(`${import.meta.env.VITE_API_BASE_URL}/api/v1/packages/popular`)
             ]);
 
             const [dataRecent, dataPopular] = await Promise.all([

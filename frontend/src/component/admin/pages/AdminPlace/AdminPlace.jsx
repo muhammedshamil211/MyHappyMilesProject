@@ -44,7 +44,7 @@ export default function AdminPlace() {
             const token = localStorage.getItem("token");
 
             const res = await fetch(
-                `http://localhost:5000/api/v1/places/${deletePlace._id}`,
+                `${import.meta.env.VITE_API_BASE_URL}/api/v1/places/${deletePlace._id}`,
                 {
                     method: "DELETE",
                     headers: {

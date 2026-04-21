@@ -1,4 +1,4 @@
-const API_BASE_URL = "http://localhost:5000/api/v1/admin/analytics";
+const API_BASE_URL = `${import.meta.env.VITE_API_BASE_URL}/api/v1/admin/analytics`;
 
 export const getGlobalAnalytics = async ({ search = '', sortBy = 'totalRevenue', order = 'desc', page = 1, limit = 10 }) => {
     const token = localStorage.getItem("token");

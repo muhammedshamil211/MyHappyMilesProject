@@ -30,7 +30,7 @@ export default function AdminUsers() {
 
     const fetchTopUsers = async () => {
         try {
-            const res = await fetch(`http://localhost:5000/api/v1/admin/users/top?limit=3`, {
+            const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/v1/admin/users/top?limit=3`, {
                 headers: { "Authorization": `Bearer ${token}` }
             });
             const data = await res.json();
@@ -54,7 +54,7 @@ export default function AdminUsers() {
                 ...(role && { role }),
                 ...(status && { status })
             });
-            const res = await fetch(`http://localhost:5000/api/v1/admin/users?${params}`, {
+            const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/v1/admin/users?${params}`, {
                 headers: { "Authorization": `Bearer ${token}` }
             });
             const data = await res.json();
@@ -72,7 +72,7 @@ export default function AdminUsers() {
     const handleStatusChange = async (userId, newStatus) => {
         if (!window.confirm(`Change user status to ${newStatus}?`)) return;
         try {
-            const res = await fetch(`http://localhost:5000/api/v1/admin/users/${userId}/status`, {
+            const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/v1/admin/users/${userId}/status`, {
                 method: 'PATCH',
                 headers: { 
                     "Content-Type": "application/json",
@@ -95,7 +95,7 @@ export default function AdminUsers() {
     const handleRoleChange = async (userId, newRole) => {
         if (!window.confirm(`Change user role to ${newRole}?`)) return;
         try {
-            const res = await fetch(`http://localhost:5000/api/v1/admin/users/${userId}/role`, {
+            const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/v1/admin/users/${userId}/role`, {
                 method: 'PATCH',
                 headers: { 
                     "Content-Type": "application/json",

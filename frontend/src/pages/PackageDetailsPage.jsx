@@ -37,7 +37,7 @@ export default function PackageDetailsPage() {
     useEffect(() => {
         const fetchPackage = async () => {
             try {
-                const res = await fetch(`http://localhost:5000/api/v1/package/${id}`);
+                const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/v1/package/${id}`);
                 const data = await res.json();
                 if (data.success) {
                     const p = data.data.package;
@@ -58,14 +58,14 @@ export default function PackageDetailsPage() {
         };
         fetchPackage();
         // increment view silently
-        fetch(`http://localhost:5000/api/v1/packages/view/${id}`, { method: 'PUT' }).catch(() => { });
+        fetch(`${import.meta.env.VITE_API_BASE_URL}/api/v1/packages/view/${id}`, { method: 'PUT' }).catch(() => { });
     }, [id]);
 
     const handleLike = async () => {
         const token = localStorage.getItem('token');
         if (!token) { setLogin(true); return; }
         try {
-            const res = await fetch(`http://localhost:5000/api/v1/packages/${id}/like`, {
+            const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/v1/packages/${id}/like`, {
                 method: 'POST',
                 headers: { Authorization: `Bearer ${token}` },
             });
@@ -102,7 +102,7 @@ export default function PackageDetailsPage() {
         setBookingLoading(true);
         setBookingMsg('');
         try {
-            const res = await fetch('http://localhost:5000/api/v1/booking', {
+            const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/v1/booking`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

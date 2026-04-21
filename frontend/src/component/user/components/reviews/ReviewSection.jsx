@@ -32,7 +32,7 @@ export default function ReviewSection({ packageId }) {
     const fetchReviews = async (page = 1, sort = 'newest') => {
         setLoading(true);
         try {
-            const res = await fetch(`http://localhost:5000/api/v1/reviews/${packageId}?page=${page}&limit=5&sortBy=${sort}`);
+            const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/v1/reviews/${packageId}?page=${page}&limit=5&sortBy=${sort}`);
             const data = await res.json();
             if (data.success) {
                 setReviews(data.data.reviews);
@@ -62,7 +62,7 @@ export default function ReviewSection({ packageId }) {
 
         setSubmitLoading(true);
         try {
-            const res = await fetch(`http://localhost:5000/api/v1/reviews/${packageId}`, {
+            const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/v1/reviews/${packageId}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -94,7 +94,7 @@ export default function ReviewSection({ packageId }) {
         }
         
         try {
-            const res = await fetch(`http://localhost:5000/api/v1/reviews/${reviewId}/like`, {
+            const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/v1/reviews/${reviewId}/like`, {
                 method: 'POST',
                 headers: { Authorization: `Bearer ${token}` }
             });
@@ -127,7 +127,7 @@ export default function ReviewSection({ packageId }) {
 
         setReplyLoading(true);
         try {
-            const res = await fetch(`http://localhost:5000/api/v1/reviews/${reviewId}/reply`, {
+            const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/v1/reviews/${reviewId}/reply`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

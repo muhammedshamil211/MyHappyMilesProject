@@ -24,7 +24,7 @@ export default function OTPModal({
         const endpoint = purpose === 'login' ? '/verify/mobile' : '/verify/email';
         
         try {
-            const res = await fetch(`http://localhost:5000/api/v1/auth/otp${endpoint}`, {
+            const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/v1/auth/otp${endpoint}`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ identifier, email: identifier, code })

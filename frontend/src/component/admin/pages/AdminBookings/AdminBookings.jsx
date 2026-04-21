@@ -27,7 +27,7 @@ export default function AdminBookings() {
                 ...(status && { status })
             });
 
-            const res = await fetch(`http://localhost:5000/api/v1/admin/bookings?${params.toString()}`, {
+            const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/v1/admin/bookings?${params.toString()}`, {
                 headers: {
                     "Authorization": `Bearer ${token}`
                 }
@@ -49,7 +49,7 @@ export default function AdminBookings() {
 
         try {
             const token = localStorage.getItem("token");
-            const res = await fetch(`http://localhost:5000/api/v1/admin/bookings/${bookingId}/status`, {
+            const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/v1/admin/bookings/${bookingId}/status`, {
                 method: 'PATCH',
                 headers: {
                     "Content-Type": "application/json",

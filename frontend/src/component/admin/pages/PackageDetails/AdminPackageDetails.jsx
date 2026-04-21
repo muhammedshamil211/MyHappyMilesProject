@@ -27,7 +27,7 @@ export default function AdminPackageDetails() {
     useEffect(() => {
         const fetchPackage = async () => {
             try {
-                const res = await fetch(`http://localhost:5000/api/v1/package/${id}`);
+                const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/v1/package/${id}`);
                 const data = await res.json();
                 if (data.success) {
                     const p = data.data.package;
@@ -131,7 +131,7 @@ export default function AdminPackageDetails() {
                 exclusions: form.exclusions.filter(Boolean),
             };
 
-            const res = await fetch(`http://localhost:5000/api/v1/packages/${id}/details`, {
+            const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/v1/packages/${id}/details`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',

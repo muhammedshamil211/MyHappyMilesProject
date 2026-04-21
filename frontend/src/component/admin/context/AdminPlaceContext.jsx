@@ -28,7 +28,7 @@ export const AdminPlaceProvider = ({ children }) => {
             });
             if (category && category !== 'all') params.set('category', category);
 
-            const res = await fetch(`http://localhost:5000/api/v1/places?${params}`);
+            const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/v1/places?${params}`);
             const data = await res.json();
 
             if (data.success) {

@@ -22,7 +22,7 @@ export default function ReviewDetailModal({ review, onClose, onStatusChange }) {
             setLoadingReplies(true);
             // Use admin reviews endpoint to get the review with replies populated
             const res = await fetch(
-                `http://localhost:5000/api/v1/admin/reviews/${review._id}/replies`,
+                `${import.meta.env.VITE_API_BASE_URL}/api/v1/admin/reviews/${review._id}/replies`,
                 { headers: { Authorization: `Bearer ${token}` } }
             );
             const data = await res.json();
@@ -40,7 +40,7 @@ export default function ReviewDetailModal({ review, onClose, onStatusChange }) {
 
     const handleLike = async () => {
         try {
-            const res = await fetch(`http://localhost:5000/api/v1/reviews/${review._id}/like`, {
+            const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/v1/reviews/${review._id}/like`, {
                 method: 'POST',
                 headers: { Authorization: `Bearer ${token}` }
             });
@@ -64,7 +64,7 @@ export default function ReviewDetailModal({ review, onClose, onStatusChange }) {
         }
         try {
             setSubmitting(true);
-            const res = await fetch(`http://localhost:5000/api/v1/reviews/${review._id}/reply`, {
+            const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/v1/reviews/${review._id}/reply`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

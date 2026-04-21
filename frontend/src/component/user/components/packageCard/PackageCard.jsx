@@ -40,7 +40,7 @@ function PackageCard({ packagePlace, placeName }) {
 
         // Increment view count silently
         try {
-            await fetch(`http://localhost:5000/api/v1/packages/view/${packagePlace._id}`, {
+            await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/v1/packages/view/${packagePlace._id}`, {
                 method: 'PUT',
             });
         } catch (err) {

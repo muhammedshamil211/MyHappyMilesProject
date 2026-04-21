@@ -17,7 +17,7 @@ export default function MyOrdersPage() {
     const fetchOrders = async () => {
         try {
             const token = localStorage.getItem("token");
-            const res = await fetch("http://localhost:5000/api/v1/my-booking", {
+            const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/v1/my-booking`, {
                 headers: {
                     "Authorization": `Bearer ${token}`
                 }
@@ -38,7 +38,7 @@ export default function MyOrdersPage() {
         
         try {
             const token = localStorage.getItem("token");
-            const res = await fetch(`http://localhost:5000/api/v1/my-booking/${bookingId}/cancel`, {
+            const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/v1/my-booking/${bookingId}/cancel`, {
                 method: 'PATCH',
                 headers: {
                     "Authorization": `Bearer ${token}`

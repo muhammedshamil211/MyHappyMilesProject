@@ -56,8 +56,8 @@ export default function PackageForm({ pack, place, onClose, onSuccess }) {
         try {
             const token = localStorage.getItem("token");
             const url = isEditMode
-                ? `http://localhost:5000/api/v1/packages/${pack._id}`
-                : `http://localhost:5000/api/v1/packages`;
+                ? `${import.meta.env.VITE_API_BASE_URL}/api/v1/packages/${pack._id}`
+                : `${import.meta.env.VITE_API_BASE_URL}/api/v1/packages`;
 
             const method = isEditMode ? "PUT" : "POST";
 

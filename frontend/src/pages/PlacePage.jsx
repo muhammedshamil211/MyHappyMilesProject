@@ -24,7 +24,7 @@ export const PlacePage = () => {
             } else {
                 try {
                     setLocalLoading(true);
-                    const res = await fetch(`http://localhost:5000/api/v1/places?search=${name}&limit=1`);
+                    const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/v1/places?search=${name}&limit=1`);
                     const data = await res.json();
                     if (data.success && data.data.places.length > 0) {
                         setLocalPlace(data.data.places[0]);

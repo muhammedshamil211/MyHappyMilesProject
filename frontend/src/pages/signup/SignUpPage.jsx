@@ -42,7 +42,7 @@ function SignUpPage() {
         }
 
         try {
-            const res = await fetch("http://localhost:5000/api/v1/auth/register", {
+            const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/v1/auth/register`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ name, email, password })
@@ -61,7 +61,7 @@ function SignUpPage() {
                 // Account created — send OTP to verify email
                 toast.success('Account created! Check your email for the OTP.');
                 
-                await fetch("http://localhost:5000/api/v1/auth/otp/send", {
+                await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/v1/auth/otp/send`, {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({ identifier: email, purpose: 'verify' })

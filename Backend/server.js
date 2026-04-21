@@ -1,3 +1,6 @@
+import dotenv from 'dotenv';
+dotenv.config();
+
 import authRouter from './routes/authRoutes.js';
 import placeRouter from './routes/place.routes.js';
 import packageRouter from './routes/package.routes.js';
@@ -5,7 +8,6 @@ import connectDB from './config/db.js';
 
 import express from 'express';
 import cors from 'cors';
-import dotenv from 'dotenv';
 import helmet from 'helmet';
 import rateLimit from 'express-rate-limit';
 import cookieParser from 'cookie-parser';
@@ -18,7 +20,7 @@ import adminReviewRouter from './routes/admin.review.route.js';
 
 const app = express();
 
-dotenv.config();
+// dotenv.config(); // Moved to top
 connectDB();
 
 // Diagnostic Middleware: Log origin to debug CORS

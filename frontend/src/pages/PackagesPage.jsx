@@ -133,45 +133,42 @@ const PackagesPage = () => {
             <main className={styles.container}>
                 {/* ── Filter & Sort Bar ── */}
                 <section className={styles.filterBar}>
-                    <div className={styles.filterGroup}>
-                        <label className={styles.label}>Search Packages</label>
-                        <input 
-                            type="text" 
-                            name="search"
-                            className={styles.input}
-                            placeholder="Search by title..."
-                            value={filters.search}
-                            onChange={handleFilterChange}
-                        />
+                    <div className={styles.searchGroup}>
+                        <div className={styles.inputWrapper}>
+                            <input 
+                                type="text" 
+                                name="search"
+                                className={styles.input}
+                                placeholder="🔍 Search packages..."
+                                value={filters.search}
+                                onChange={handleFilterChange}
+                            />
+                        </div>
                     </div>
 
-                    <div className={styles.filterGroup}>
-                        <label className={styles.label}>Destination</label>
+                    <div className={styles.selectGroup}>
                         <select 
                             name="placeId" 
                             className={styles.select}
                             value={filters.placeId}
                             onChange={handleFilterChange}
                         >
-                            <option value="">All Destinations</option>
+                            <option value="">🌎 All Destinations</option>
                             {placeList.map(place => (
                                 <option key={place._id} value={place._id}>{place.name}</option>
                             ))}
                         </select>
-                    </div>
 
-                    <div className={styles.filterGroup}>
-                        <label className={styles.label}>Sort By</label>
                         <select 
                             name="sort" 
                             className={styles.select}
                             value={filters.sort}
                             onChange={handleFilterChange}
                         >
-                            <option value="date_desc">Latest First</option>
-                            <option value="popularity_desc">Most Popular</option>
-                            <option value="price_asc">Price: Low to High</option>
-                            <option value="price_desc">Price: High to Low</option>
+                            <option value="date_desc">📅 Latest First</option>
+                            <option value="popularity_desc">🔥 Most Popular</option>
+                            <option value="price_asc">💰 Price: Low to High</option>
+                            <option value="price_desc">💰 Price: High to Low</option>
                         </select>
                     </div>
                 </section>

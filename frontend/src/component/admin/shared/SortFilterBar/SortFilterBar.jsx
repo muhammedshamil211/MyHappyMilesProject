@@ -16,21 +16,27 @@ export default function SortFilterBar({ filters = [], sorts = [], values = {}, o
         if (!buttonRef.current || !open) return;
         
         const rect = buttonRef.current.getBoundingClientRect();
-        const panelWidth = 340; 
-        const panelMaxHeight = 440; // Approx max height
         const viewportWidth = window.innerWidth;
         const viewportHeight = window.innerHeight;
         const spacing = 8;
 
+        // Mobile detection
+        if (viewportWidth <= 480) {
+            setCoords({ top: 0, left: 0, width: viewportWidth, placement: 'bottom' });
+            return;
+        }
+
+        const panelWidth = 340; 
+        const panelMaxHeight = 440; 
+        
         let left = rect.left;
         let top = rect.bottom + spacing;
         let placement = 'bottom';
 
         // Horizontal correction: align to right if it overflows right
         if (left + panelWidth > viewportWidth - 20) {
-            left = rect.right - panelWidth;
+            left = Math.max(10, rect.right - panelWidth);
         }
-        if (left < 10) left = 10;
 
         // Vertical correction: flip to top if space below is too small
         if (rect.bottom + panelMaxHeight > viewportHeight - 20 && rect.top > panelMaxHeight + spacing) {

@@ -2,6 +2,11 @@
 
 * {
     font-family: 'Poppins', sans-serif;
+    box-sizing: border-box;
+}
+
+select, input, textarea {
+    max-width: 100%;
 }
 
 button{
